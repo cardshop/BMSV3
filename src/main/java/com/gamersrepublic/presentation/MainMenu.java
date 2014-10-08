@@ -1,11 +1,12 @@
 package com.gamersrepublic.presentation;
+import com.gamersrepublic.config.ConnectionConfig;
+import com.gamersrepublic.domain.Employee;
 import com.gamersrepublic.domain.Supplier;
 import com.gamersrepublic.repository.SupplierRepository;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import com.gamersrepublic.config.ConnectionConfig;
 
 
 
@@ -24,14 +25,13 @@ public class MainMenu extends javax.swing.JFrame {
     private static ApplicationContext ctx;
     private Long id;
     private SupplierRepository repo;
+    private Employee user;
     
     public MainMenu() {
         initComponents();
         model = (DefaultTableModel) tblInventory.getModel();
         model1 = (DefaultTableModel) tblContacts.getModel();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -696,7 +696,11 @@ public class MainMenu extends javax.swing.JFrame {
         txtConWeb.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 5)));
         txtConDesc.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 6)));
     }//GEN-LAST:event_tblContactsMouseClicked
-/*
+    
+    public void setUser(Employee user){
+        this.user = user;
+    }
+    /*
     @BeforeClass
     public static void setUpClass() throws Exception {
         ctx = new AnnotationConfigApplicationContext(ConnectionConfig.class);
