@@ -32,7 +32,7 @@ public class LoginServiceImpl implements LoginService{
         List<Employee> employees = repo.findAll();
         
         for(Employee employee : employees){
-            if(employee.getUsername().equals(username) && employee.getPassword().equals(password))
+            if(employee.getUsername().equalsIgnoreCase(username) && employee.getPassword().equals(password))
                 return employee;
         }
         
