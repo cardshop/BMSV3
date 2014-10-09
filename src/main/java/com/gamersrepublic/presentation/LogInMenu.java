@@ -3,7 +3,7 @@ package com.gamersrepublic.presentation;
 import com.gamersrepublic.services.LoginService;
 import com.gamersrepublic.services.impl.LoginServiceImpl;
 import javax.swing.JOptionPane;
-import static jdk.nashorn.internal.objects.NativeString.trim;
+
 
 /**
  *
