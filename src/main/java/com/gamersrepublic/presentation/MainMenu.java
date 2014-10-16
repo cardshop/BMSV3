@@ -42,9 +42,17 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlMainMenu = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblInvetoryLevels = new javax.swing.JLabel();
+        canvas1 = new java.awt.Canvas();
+        lblMain = new javax.swing.JLabel();
+        lblInvetoryLevels3 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tblInventoryLevels1 = new javax.swing.JTable();
+        lblInvetoryLevels1 = new javax.swing.JLabel();
+        lblInvetoryLevels4 = new javax.swing.JLabel();
         pnlProcessOrder = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,6 +65,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblInventory1 = new javax.swing.JTable();
         btnProcessOrder = new javax.swing.JButton();
+        lblInvetoryLevels5 = new javax.swing.JLabel();
         pnlInvManager = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         pnlInventory1 = new javax.swing.JPanel();
@@ -80,6 +89,7 @@ public class MainMenu extends javax.swing.JFrame {
         txtPrice = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
+        lblInvetoryLevels6 = new javax.swing.JLabel();
         pnlContacts = new javax.swing.JPanel();
         pnlInventory2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -105,28 +115,103 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         txtConDesc = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
+        lblInvetoryLevels7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        lblInvetoryLevels2 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(190, 213, 213));
         setBounds(new java.awt.Rectangle(0, 0, 400, 400));
         setForeground(java.awt.Color.black);
         setMinimumSize(new java.awt.Dimension(1025, 730));
+        setResizable(false);
         getContentPane().setLayout(null);
 
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTabbedPane1.setBackground(new java.awt.Color(95, 136, 177));
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane1.setFont(new java.awt.Font("Bodoni MT", 0, 18)); // NOI18N
         jTabbedPane1.setInheritsPopupMenu(true);
         jTabbedPane1.setName(""); // NOI18N
+        jTabbedPane1.setOpaque(true);
 
         pnlMainMenu.setLayout(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Wesley\\Documents\\NetBeansProjects\\ProperDomain\\Tp2\\BMSV3\\src\\main\\java\\com\\gamersrepublic\\presentation\\Welcome-Home-Request-Invitation.jpg")); // NOI18N
-        pnlMainMenu.add(jLabel1);
-        jLabel1.setBounds(0, 0, 1100, 680);
+        lblInvetoryLevels.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels.setOpaque(true);
+        pnlMainMenu.add(lblInvetoryLevels);
+        lblInvetoryLevels.setBounds(0, 0, 1020, 10);
+        pnlMainMenu.add(canvas1);
+        canvas1.setBounds(730, 150, 0, 0);
 
-        jTabbedPane1.addTab("Main Menu", pnlMainMenu);
+        lblMain.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblMain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gamersrepublic/presentation/Welcome-Home-Request-Invitation.jpg"))); // NOI18N
+        lblMain.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        pnlMainMenu.add(lblMain);
+        lblMain.setBounds(0, 10, 1010, 40);
+
+        lblInvetoryLevels3.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels3.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels3.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels3.setText("                   Welcome back user!");
+        lblInvetoryLevels3.setOpaque(true);
+        pnlMainMenu.add(lblInvetoryLevels3);
+        lblInvetoryLevels3.setBounds(330, 50, 320, 20);
+
+        jScrollPane8.setAutoscrolls(true);
+
+        tblInventoryLevels1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Paper",  new Double(100.0)},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Item", "Inventory"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(tblInventoryLevels1);
+        if (tblInventoryLevels1.getColumnModel().getColumnCount() > 0) {
+            tblInventoryLevels1.getColumnModel().getColumn(0).setResizable(false);
+            tblInventoryLevels1.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        pnlMainMenu.add(jScrollPane8);
+        jScrollPane8.setBounds(10, 130, 320, 90);
+
+        lblInvetoryLevels1.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels1.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels1.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels1.setText("                   Upcoming Orders");
+        lblInvetoryLevels1.setOpaque(true);
+        pnlMainMenu.add(lblInvetoryLevels1);
+        lblInvetoryLevels1.setBounds(680, 100, 297, 31);
+
+        lblInvetoryLevels4.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels4.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels4.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels4.setText("                       Inventory Levels");
+        lblInvetoryLevels4.setOpaque(true);
+        pnlMainMenu.add(lblInvetoryLevels4);
+        lblInvetoryLevels4.setBounds(10, 100, 320, 30);
+
+        jTabbedPane1.addTab("Home", pnlMainMenu);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Order", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Constantia", 0, 14))); // NOI18N
 
@@ -226,26 +311,35 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(txtOrderDueDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addComponent(btnProcessOrder)
                 .addGap(23, 23, 23))
         );
+
+        lblInvetoryLevels5.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels5.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels5.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels5.setOpaque(true);
 
         javax.swing.GroupLayout pnlProcessOrderLayout = new javax.swing.GroupLayout(pnlProcessOrder);
         pnlProcessOrder.setLayout(pnlProcessOrderLayout);
         pnlProcessOrderLayout.setHorizontalGroup(
             pnlProcessOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlProcessOrderLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
+            .addGroup(pnlProcessOrderLayout.createSequentialGroup()
+                .addComponent(lblInvetoryLevels5, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlProcessOrderLayout.setVerticalGroup(
             pnlProcessOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProcessOrderLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlProcessOrderLayout.createSequentialGroup()
+                .addComponent(lblInvetoryLevels5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(131, 131, 131))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Process Order", pnlProcessOrder);
@@ -419,14 +513,18 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
                 .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addGroup(pnlInventoryLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addContainerGap(75, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInventoryLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -434,7 +532,7 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlInventory1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -446,7 +544,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(pnlInventory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(pnlInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -454,7 +552,14 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         pnlInvManager.add(jPanel2);
-        jPanel2.setBounds(80, 10, 840, 650);
+        jPanel2.setBounds(0, 20, 920, 580);
+
+        lblInvetoryLevels6.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels6.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels6.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels6.setOpaque(true);
+        pnlInvManager.add(lblInvetoryLevels6);
+        lblInvetoryLevels6.setBounds(0, 0, 1020, 10);
 
         jTabbedPane1.addTab("Inventory Manager", pnlInvManager);
 
@@ -524,7 +629,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         pnlContacts.add(pnlInventory2);
-        pnlInventory2.setBounds(120, 60, 790, 120);
+        pnlInventory2.setBounds(90, 20, 790, 120);
 
         tblContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -550,7 +655,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tblContacts);
 
         pnlContacts.add(jScrollPane3);
-        jScrollPane3.setBounds(120, 200, 790, 170);
+        jScrollPane3.setBounds(90, 160, 790, 170);
 
         pnlInventory3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Edit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Constantia", 0, 14))); // NOI18N
         pnlInventory3.setToolTipText("Categories");
@@ -646,52 +751,109 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         pnlContacts.add(pnlInventory3);
-        pnlInventory3.setBounds(120, 400, 790, 180);
+        pnlInventory3.setBounds(90, 340, 790, 180);
         pnlContacts.add(jLabel13);
         jLabel13.setBounds(0, 0, 1010, 0);
 
+        lblInvetoryLevels7.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels7.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels7.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels7.setOpaque(true);
+        pnlContacts.add(lblInvetoryLevels7);
+        lblInvetoryLevels7.setBounds(0, 0, 1020, 10);
+
         jTabbedPane1.addTab("My Contacts", pnlContacts);
+
+        lblInvetoryLevels2.setBackground(new java.awt.Color(95, 136, 177));
+        lblInvetoryLevels2.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
+        lblInvetoryLevels2.setForeground(new java.awt.Color(255, 255, 255));
+        lblInvetoryLevels2.setOpaque(true);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1003, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(lblInvetoryLevels2, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(lblInvetoryLevels2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 619, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Help", jPanel4);
 
         getContentPane().add(jTabbedPane1);
-        jTabbedPane1.setBounds(0, 80, 1010, 710);
+        jTabbedPane1.setBounds(0, 70, 1030, 670);
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Home");
 
-        jPanel6.setBackground(new java.awt.Color(168, 190, 236));
-        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.setOpaque(false);
+        jPanel8.setBackground(new java.awt.Color(95, 136, 177));
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel8.setToolTipText("");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+        jLabel1.setFont(new java.awt.Font("Bodoni MT", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Business Management System");
+
+        jLabel4.setBackground(new java.awt.Color(203, 205, 221));
+        jLabel4.setFont(new java.awt.Font("Bodoni MT", 0, 12)); // NOI18N
+        jLabel4.setText("[USER] is logged in");
+        jLabel4.setOpaque(true);
+
+        jButton1.setFont(new java.awt.Font("Bodoni MT", 0, 12)); // NOI18N
+        jButton1.setLabel("Logout?");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(178, 178, 178))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 58, Short.MAX_VALUE)
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(0, 21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel6);
-        jPanel6.setBounds(20, 10, 950, 60);
+        jLabel4.getAccessibleContext().setAccessibleName("lblUserLoggedIn");
+        jLabel4.getAccessibleContext().setAccessibleDescription("");
 
-        jLabel4.setFont(new java.awt.Font("Monotype Corsiva", 0, 48)); // NOI18N
-        jLabel4.setText("Business Management System");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(240, -20, 690, 120);
+        getContentPane().add(jPanel8);
+        jPanel8.setBounds(0, -10, 1020, 80);
 
-        setSize(new java.awt.Dimension(1026, 830));
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel9);
+        jPanel9.setBounds(420, 30, 100, 60);
+
+        setSize(new java.awt.Dimension(999, 756));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -904,8 +1066,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnProcessOrder;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateContact;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private java.awt.Canvas canvas1;
     private javax.swing.JComboBox cmboxTypeInput;
     private javax.swing.JComboBox cmbxType;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -930,14 +1095,25 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblInvetoryLevels;
+    private javax.swing.JLabel lblInvetoryLevels1;
+    private javax.swing.JLabel lblInvetoryLevels2;
+    private javax.swing.JLabel lblInvetoryLevels3;
+    private javax.swing.JLabel lblInvetoryLevels4;
+    private javax.swing.JLabel lblInvetoryLevels5;
+    private javax.swing.JLabel lblInvetoryLevels6;
+    private javax.swing.JLabel lblInvetoryLevels7;
+    private javax.swing.JLabel lblMain;
     private javax.swing.JPanel pnlContacts;
     private javax.swing.JPanel pnlInvManager;
     private javax.swing.JPanel pnlInventory;
@@ -949,6 +1125,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTable tblContacts;
     private javax.swing.JTable tblInventory;
     private javax.swing.JTable tblInventory1;
+    private javax.swing.JTable tblInventoryLevels1;
     private javax.swing.JTextField txtConAddress;
     private javax.swing.JTextField txtConCel;
     private javax.swing.JTextArea txtConDesc;
