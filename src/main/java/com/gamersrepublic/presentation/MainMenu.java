@@ -853,7 +853,7 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().add(jPanel9);
         jPanel9.setBounds(420, 30, 100, 60);
 
-        setSize(new java.awt.Dimension(999, 756));
+        setSize(new java.awt.Dimension(999, 562));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
