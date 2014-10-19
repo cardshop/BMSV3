@@ -5,7 +5,9 @@ import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Supplier;
 import com.gamersrepublic.repository.SupplierRepository;
 import com.gamersrepublic.services.PaperCRUDService;
+import com.gamersrepublic.services.ReportService;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
+import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,7 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         model = (DefaultTableModel) tblInventory.getModel();
         model1 = (DefaultTableModel) tblContacts.getModel();
+        generateReports();
     }
 
     /**
@@ -140,6 +143,14 @@ public class MainMenu extends javax.swing.JFrame {
         lblInvetoryLevels9 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         lblInvetoryLevels10 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        decorationsCount = new javax.swing.JLabel();
+        paperCount = new javax.swing.JLabel();
+        inkCount = new javax.swing.JLabel();
         pnlInvManager = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         pnlInventory1 = new javax.swing.JPanel();
@@ -238,7 +249,6 @@ public class MainMenu extends javax.swing.JFrame {
         canvas1.setBounds(730, 150, 0, 0);
 
         lblMain.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblMain.setIcon(new javax.swing.ImageIcon("C:\\Users\\jonathan\\Documents\\NetBeansProjects\\BMSV3\\src\\main\\java\\com\\gamersrepublic\\presentation\\Welcome-Home-Request-Invitation.jpg")); // NOI18N
         lblMain.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         pnlMainMenu.add(lblMain);
         lblMain.setBounds(0, 10, 1010, 40);
@@ -783,6 +793,68 @@ public class MainMenu extends javax.swing.JFrame {
         lblInvetoryLevels10.setForeground(new java.awt.Color(255, 255, 255));
         lblInvetoryLevels10.setOpaque(true);
 
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setText("Stock Report");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Decorations");
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel22.setText("Paper");
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel23.setText("Ink Cardridges");
+
+        decorationsCount.setText("0");
+
+        paperCount.setText("0");
+
+        inkCount.setText("0");
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(decorationsCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel22)
+                            .addComponent(paperCount, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(inkCount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(decorationsCount)
+                    .addComponent(paperCount)
+                    .addComponent(inkCount))
+                .addContainerGap(86, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -790,12 +862,18 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(lblInvetoryLevels10, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(lblInvetoryLevels10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 709, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 517, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("My Reports", jPanel13);
@@ -1577,6 +1655,15 @@ public class MainMenu extends javax.swing.JFrame {
     public void setUser(Employee user){
         this.user = user;
     }
+    
+    public void generateReports(){
+        ReportService reportService = new ReportServiceImpl();
+        Map reportData = reportService.StockReport();
+        
+        this.decorationsCount.setText(reportData.get("decorations").toString());
+        this.paperCount.setText(reportData.get("paper").toString());
+        this.inkCount.setText(reportData.get("inkCardridges").toString());
+    }
     /*
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -1642,12 +1729,16 @@ public class MainMenu extends javax.swing.JFrame {
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
+    private javax.swing.JLabel decorationsCount;
+    private javax.swing.JLabel inkCount;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1656,6 +1747,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1669,6 +1762,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1724,6 +1818,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblSheetsUsed;
     private javax.swing.JLabel lblUnitPrice;
     private javax.swing.JPanel panelDecorations;
+    private javax.swing.JLabel paperCount;
     private javax.swing.JPanel pnlContacts;
     private javax.swing.JPanel pnlInvManager;
     private javax.swing.JPanel pnlInventory;
