@@ -62,30 +62,42 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public Map StockReport() {
         Map model = new HashMap();
-        List<InkCardridge> inkCardridges = inkCardridgeRepo.findAll();
-        List<Decoration> decorations = decorationRepo.findAll();
-        List<Paper> paper = paperRepo.findAll();        
-        double counter = 0;
+        int counter = 0;
         
-        for(InkCardridge inkCardridge : inkCardridges){
-            counter += inkCardridge.getInventory();
+        try{
+            List<InkCardridge> inkCardridges = inkCardridgeRepo.findAll();
+            for(InkCardridge inkCardridge : inkCardridges){
+                counter += inkCardridge.getInventory();
+            }
+
+            model.put("inkCardridges", counter);
+            counter = 0;
+        } catch(Exception e){
+            model.put("inkCardridges", 0);
         }
         
-        model.put("inkCardridges", counter);
-        counter = 0;
+        try{
+            List<Decoration> decorations = decorationRepo.findAll();
+            for(Decoration decoration : decorations){
+                counter += decoration.getInventory();
+            }
         
-        for(Decoration decoration : decorations){
-            counter += decoration.getInventory();
+            model.put("decorations", counter);
+            counter = 0;
+        } catch(Exception e){
+            model.put("decorations", 0);
         }
         
-        model.put("decorations", counter);
-        counter = 0;
+        try{
+            List<Paper> paper = paperRepo.findAll(); 
+            for (Paper page : paper){
+               counter += page.getInventory();
+            }
         
-        for (Paper page : paper){
-            counter += page.getInventory();
+            model.put("paper", counter);
+        } catch(Exception e){
+            model.put("paper", 0);
         }
-        
-        model.put("paper", counter);
         
         return model;
     }
