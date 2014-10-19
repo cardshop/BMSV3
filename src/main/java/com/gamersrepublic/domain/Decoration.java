@@ -24,12 +24,11 @@ public class Decoration implements Serializable {
     private Long id;
     private String descrip;
     private double price;
-    private int inventory;
+    private double inventory;
     private String colour;
     private String decWidth;
-    private String decLength;
+    private double decLength;
     private String decSize;
-    private String micron;
     
     private Decoration(){
     }
@@ -43,19 +42,17 @@ public class Decoration implements Serializable {
         decWidth = build.decWidth;
         decLength = build.decLength;
         decSize = build.decSize;
-        micron = build.micron;
     }
     
     public static class Builder{
         private Long id;
         private String descrip;
         private double price;
-        private int inventory;
+        private double inventory;
         private String colour;
         private String decWidth;
-        private String decLength;
+        private double decLength;
         private String decSize;
-        private String micron;
         
         public Builder(String descrip){
             this.descrip = descrip;
@@ -71,7 +68,7 @@ public class Decoration implements Serializable {
             return this;
         }
         
-        public Builder inventory(int inventory){
+        public Builder inventory(double inventory){
             this.inventory = inventory;
             return this;
         }
@@ -86,7 +83,7 @@ public class Decoration implements Serializable {
             return this;
         }
         
-        public Builder decLength(String decLength){
+        public Builder decLength(double decLength){
             this.decLength = decLength;
             return this;
         }
@@ -97,12 +94,6 @@ public class Decoration implements Serializable {
             return this;
         }
         
-        
-        public Builder micron(String micron){
-            this.micron = micron;
-            return this;
-        }
-
         public Builder clone(Decoration d){
             id = d.getId();
             descrip = d.getDescrip();
@@ -112,7 +103,6 @@ public class Decoration implements Serializable {
             decWidth = d.getDecWidth();
             decLength = d.getDecLength();
             decSize = d.getDecSize();
-            micron = d.getMicron();
             return this;
         }
         
@@ -160,9 +150,6 @@ public class Decoration implements Serializable {
         if (!Objects.equals(this.decSize, other.decSize)) {
             return false;
         }
-        if (!Objects.equals(this.micron, other.micron)) {
-            return false;
-        }
         return true;
     }
 
@@ -182,7 +169,7 @@ public class Decoration implements Serializable {
         return price;
     }
 
-    public int getInventory() {
+    public double  getInventory() {
         return inventory;
     }
 
@@ -194,16 +181,11 @@ public class Decoration implements Serializable {
         return decWidth;
     }
 
-    public String getDecLength() {
+    public double getDecLength() {
         return decLength;
     }
 
     public String getDecSize() {
         return decSize;
     }
-
-    public String getMicron() {
-        return micron;
-    }
-
 }

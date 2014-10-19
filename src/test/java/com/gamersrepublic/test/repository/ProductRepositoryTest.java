@@ -1,10 +1,10 @@
 package com.gamersrepublic.test.repository;
 
-import com.gamersrepublic.domain.InkPrinter;
+import com.gamersrepublic.domain.Decoration;
 import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Product;
+import com.gamersrepublic.repository.DecorationRepository;
 import com.gamersrepublic.repository.PaperRepository;
-import com.gamersrepublic.repository.PrinterRepository;
 import com.gamersrepublic.repository.ProductRepository;
 import com.gamersrepublic.test.config.ConnectionConfigTest;
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ public class ProductRepositoryTest {
     private static ApplicationContext ctx;
     private ProductRepository repo;
     private PaperRepository paperRepo;
-    private PrinterRepository printRepo;
+    private DecorationRepository decRepo;
     private Long id;
     
     public ProductRepositoryTest() {
@@ -40,11 +40,10 @@ public class ProductRepositoryTest {
      public void createInvite(){
          repo = ctx.getBean(ProductRepository.class);
          paperRepo = ctx.getBean(PaperRepository.class);
-         printRepo = ctx.getBean(PrinterRepository.class);
+         decRepo = ctx.getBean(DecorationRepository.class);
          
          Paper paperUsed = new Paper.Builder("Glossy")
                  .colour("Red")
-                 .qty(2)
                  .build();
          
          paperRepo.save(paperUsed);
@@ -52,15 +51,21 @@ public class ProductRepositoryTest {
          List<Paper> p = new ArrayList<>();
          p.add(paperUsed);
          
-         InkPrinter lexmark = new InkPrinter.Builder("LexMark")
+         Decoration ribbon = new Decoration.Builder("Silk Ribbon")
+                 .colour("Red")
+                 .decLength(25)
+                 .inventory(4)
+                 .price(20)
                  .build();
          
-         printRepo.save(lexmark);
+         decRepo.save(ribbon);
          
+         List<Decoration> d = new ArrayList<>();
+         d.add(ribbon);
          
          Product invite = new Product.Builder("Wedding Invitation")
                  .paperUsed(p)
-                 .printerUsed(lexmark)
+                 .decorationsUsed(d)
                  .build();
      
          repo.save(invite);
@@ -69,14 +74,14 @@ public class ProductRepositoryTest {
          
          Assert.assertNotNull(id);
      }
-
+  
      @Test(dependsOnMethods = "createInvite")
      public void readInvite(){
          repo = ctx.getBean(ProductRepository.class);
          Product invite = repo.findOne(id);
          Assert.assertEquals(invite.getDescription(), "Wedding Invitation");
      }
-     
+   
      @Test(dependsOnMethods = "readInvite")
      public void updateInvite(){
          repo = ctx.getBean(ProductRepository.class);

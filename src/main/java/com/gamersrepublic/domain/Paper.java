@@ -27,8 +27,7 @@ public class Paper implements Serializable{
     private Long id;
     private String type;
     private double price;
-    private int qty; //Sheets
-    private int totalQty;
+    private int inventory;
     private String grammage; // 100, 200, 270, 300
     private String size; //A4
     private String colour;
@@ -40,8 +39,7 @@ public class Paper implements Serializable{
         id = build.id;
         type = build.type;
         price = build.price;
-        qty = build.qty;
-        totalQty = build.totalQty;
+        inventory = build.inventory;
         colour = build.colour;
         size = build.size;
         grammage = build.grammage;
@@ -51,8 +49,7 @@ public class Paper implements Serializable{
         private Long id;
         private String type;
         private double price;
-        private int qty;
-        private int totalQty;
+        private int inventory;
         private String colour;
         private String size;
         private String grammage;
@@ -71,13 +68,8 @@ public class Paper implements Serializable{
             return this;
         }
         
-        public Builder qty(int qty){
-            this.qty = qty;
-            return this;
-        }
-        
-        public Builder totalQty(int totalQty){
-            this.totalQty = totalQty;
+        public Builder inventory(int inventory){
+            this.inventory = inventory;
             return this;
         }
         
@@ -100,8 +92,7 @@ public class Paper implements Serializable{
             id = p.getId();
             type = p.getType();
             price = p.getPrice();
-            qty = p.getQty();
-            totalQty = p.getTotalQty();
+            inventory = p.getInventory();
             colour = p.getColour();
             size = p.getSize();
             grammage = p.getGrammage();
@@ -129,12 +120,9 @@ public class Paper implements Serializable{
         return price;
     }
 
-    public int getQty() {
-        return qty;
-    }
 
-    public int getTotalQty() {
-        return totalQty;
+    public int getInventory() {
+        return inventory;
     }
 
     public String getGrammage() {
@@ -173,10 +161,7 @@ public class Paper implements Serializable{
         if (Double.doubleToLongBits(this.price) != Double.doubleToLongBits(other.price)) {
             return false;
         }
-        if (this.qty != other.qty) {
-            return false;
-        }
-        if (this.totalQty != other.totalQty) {
+        if (this.inventory != other.inventory) {
             return false;
         }
         if (!Objects.equals(this.grammage, other.grammage)) {
@@ -189,10 +174,5 @@ public class Paper implements Serializable{
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Paper{" + "id=" + id + ", type=" + type + ", price=" + price + ", qty=" + qty + ", totalQty=" + totalQty + ", grammage=" + grammage + ", size=" + size + ", colour=" + colour + '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.gamersrepublic.test.domain;
 
-import com.gamersrepublic.domain.Template;
 import com.gamersrepublic.domain.Product;
 import org.testng.Assert;
 import static org.testng.Assert.*;
@@ -17,8 +16,7 @@ import org.testng.annotations.Test;
 
 public class ProductTest {
     public static Product service;
-    public static Template templateService;    
-  
+
     public ProductTest() {
     }
 
