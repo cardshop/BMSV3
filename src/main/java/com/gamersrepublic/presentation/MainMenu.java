@@ -1,8 +1,10 @@
 package com.gamersrepublic.presentation;
 import com.gamersrepublic.config.ConnectionConfig;
+import com.gamersrepublic.domain.CustomerInvoice;
 import com.gamersrepublic.domain.Employee;
 import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Supplier;
+import com.gamersrepublic.repository.CustomerInvoiceRepository;
 import com.gamersrepublic.repository.SupplierRepository;
 import com.gamersrepublic.services.ContactService;
 import com.gamersrepublic.services.PaperCRUDService;
@@ -54,6 +56,8 @@ public class MainMenu extends javax.swing.JFrame {
     private Employee user;
     private PaperCRUDService paperCRUDService;
     private ContactService contactService;
+    private CustomerInvoiceRepository customerInvoiceRepo;
+    private ReportService reportService;
     
     public MainMenu() {
         initComponents();
@@ -61,6 +65,7 @@ public class MainMenu extends javax.swing.JFrame {
         model1 = (DefaultTableModel) tblContacts.getModel();
         generateReports();
         populateContactList();
+        populateSalesList();
     }
 
     /**
@@ -156,6 +161,9 @@ public class MainMenu extends javax.swing.JFrame {
         decorationsCount = new javax.swing.JLabel();
         paperCount = new javax.swing.JLabel();
         inkCount = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tblSales = new javax.swing.JTable();
+        jLabel24 = new javax.swing.JLabel();
         pnlInvManager = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         pnlInventory1 = new javax.swing.JPanel();
@@ -860,6 +868,39 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(86, Short.MAX_VALUE))
         );
 
+        tblSales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Invoice Date", "Order Amount", "Deposit Paid", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Double.class, java.lang.Boolean.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSalesMouseClicked(evt);
+            }
+        });
+        jScrollPane9.setViewportView(tblSales);
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel24.setText("Sales for the Month");
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -869,16 +910,23 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(lblInvetoryLevels10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 517, Short.MAX_VALUE))
+                .addGap(0, 306, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("My Reports", jPanel13);
@@ -1579,6 +1627,17 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void populateSalesList(){
+        reportService = new ReportServiceImpl();
+        DefaultTableModel model1 = (DefaultTableModel) tblSales.getModel();
+        
+        if(reportService.MonthlyOrdersProcessed() != null){
+            for (CustomerInvoice customerInvoice : reportService.MonthlyOrdersProcessed()){
+                model1.addRow(new Object[]{customerInvoice.getInvoiceDate(), customerInvoice.getOrderAmount(), customerInvoice.isDepositPaid(), customerInvoice.isInvoicePaid() });
+            }
+        }
+    }
+    
     private void populateContactList(){
         contactService = new ContactServiceImpl();
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
@@ -1717,6 +1776,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void txtColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColourActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColourActionPerformed
+
+    private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblSalesMouseClicked
     
     public void setUser(Employee user){
         this.user = user;
@@ -1815,6 +1878,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1844,6 +1908,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
@@ -1901,6 +1966,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTable tblInventory;
     private javax.swing.JTable tblInventory1;
     private javax.swing.JTable tblInventoryLevels1;
+    private javax.swing.JTable tblSales;
     private javax.swing.JTextField txtAmountSpray;
     private javax.swing.JTextField txtBeadsUsed;
     private javax.swing.JTextField txtColour;
