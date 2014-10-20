@@ -48,9 +48,9 @@ public class MainMenu extends javax.swing.JFrame {
      */
     DefaultTableModel model;
     DefaultTableModel model1;
-    private static ApplicationContext ctx;
+    private final ApplicationContext ctx = new AnnotationConfigApplicationContext(ConnectionConfig.class);
     private Long id;
-    private SupplierRepository repo;
+    private SupplierRepository supplierRepo;
     private Employee user;
     private PaperCRUDService paperCRUDService;
     private ContactService contactService;
@@ -60,6 +60,7 @@ public class MainMenu extends javax.swing.JFrame {
         model = (DefaultTableModel) tblInventory.getModel();
         model1 = (DefaultTableModel) tblContacts.getModel();
         generateReports();
+        populateContactList();
     }
 
     /**
@@ -1258,18 +1259,25 @@ public class MainMenu extends javax.swing.JFrame {
 
         tblContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"CNA", "0217654312", "086578453", "cna@gmail.co.za", "12 Crescent Road", "www.cna.co.za", "Stationary Equiptment"}
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Name", "Telephone", "Cellphone", "Email", "Address", "Website", "Description"
+                "id", "Name", "Telephone", "Cellphone", "Email", "Address", "Website", "Description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblContacts.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1571,6 +1579,17 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void populateContactList(){
+        contactService = new ContactServiceImpl();
+        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        clearList();
+        if(contactService.populateContactList() != null){
+            for (Supplier supplier : contactService.populateContactList()){
+                model1.addRow(new Object[]{supplier.getId(), supplier.getName(), supplier.getContactLandline(), supplier.getContactCellphone(), supplier.getEmailAddress(), supplier.getAddress(), supplier.getWebsiteURL(), supplier.getServiceDescrip() });
+            }
+        }
+    }
+    
     private void btnAddContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContactActionPerformed
         // TODO add your handling code here:
         /*
@@ -1602,42 +1621,73 @@ public class MainMenu extends javax.swing.JFrame {
         attributes.put("description", txtConDesc.getText());
         
         contactService = new ContactServiceImpl();
-        contactService.addContact(attributes);
+        Supplier supplier = contactService.addContact(attributes);
         
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
-        model1.addRow(new Object[]{txtConName.getText(), txtConTel.getText(), txtConCel.getText(), txtConEmail.getText(),txtConAddress.getText(),txtConWeb.getText(),txtConDesc.getText() });
+        //model1.addRow(new Object[]{supplier.getId(), txtConName.getText(), txtConTel.getText(), txtConCel.getText(), txtConEmail.getText(),txtConAddress.getText(),txtConWeb.getText(),txtConDesc.getText() });
+        model1.addRow(new Object[]{supplier.getId(), supplier.getName(), supplier.getContactLandline(), supplier.getContactCellphone(), supplier.getEmailAddress(), supplier.getAddress(), supplier.getWebsiteURL(), supplier.getServiceDescrip() });
     }//GEN-LAST:event_btnAddContactActionPerformed
 
     private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        supplierRepo = ctx.getBean(SupplierRepository.class);
+        List<Supplier> suppliers = supplierRepo.findAll();
+        contactService = new ContactServiceImpl();
+        
+        for(Supplier supplier : suppliers){
+            if(model1.getValueAt(tblContacts.getSelectedRow(),0) == supplier.getId()){
+                Map attributes = new HashMap();
+                attributes.put("name", txtConName.getText());
+                attributes.put("address", txtConAddress.getText());
+                attributes.put("email", txtConEmail.getText());
+                attributes.put("cel", txtConCel.getText());
+                attributes.put("tel", txtConTel.getText());
+                attributes.put("website", txtConWeb.getText());
+                attributes.put("description", txtConDesc.getText());
+                attributes.put("id", supplier.getId());
+
+                contactService.updateContact(attributes);
+            }
+        }
+        
+        populateContactList();
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
+    private void clearList(){
+        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        
+        if (model1.getRowCount() > 0) {
+            for (int i = model1.getRowCount() - 1; i > -1; i--) {
+                model1.removeRow(i);
+            }
+        }
+    }
+    
     private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
         // TODO add your handling code here:
          int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Confirm",
-        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);       
-
-         
-        if(response==0)
-        {
-         model1.removeRow(tblContacts.getSelectedRow());
-         JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
+        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); 
+        contactService = new ContactServiceImpl();
+        
+        if(response==0){
+            contactService.deleteContact((Long)model1.getValueAt(tblContacts.getSelectedRow(),0));
+            model1.removeRow(tblContacts.getSelectedRow());
+            JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
         }
-        else 
-        {
+        else{
             return;
         }
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
     private void tblContactsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContactsMouseClicked
         // TODO add your handling code here:
-        txtConName.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 0)));
-        txtConTel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 1)));
-        txtConCel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 2)));
-        txtConEmail.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 3)));
-        txtConAddress.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 4)));
-        txtConWeb.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 5)));
-        txtConDesc.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 6)));
+        txtConName.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 1)));
+        txtConTel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 2)));
+        txtConCel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 3)));
+        txtConEmail.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 4)));
+        txtConAddress.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 5)));
+        txtConWeb.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 6)));
+        txtConDesc.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 7)));
     }//GEN-LAST:event_tblContactsMouseClicked
 
     private void tblInventory1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventory1MouseClicked

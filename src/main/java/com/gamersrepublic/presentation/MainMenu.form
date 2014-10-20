@@ -2082,28 +2082,15 @@
                 <Component class="javax.swing.JTable" name="tblContacts">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="1">
-                        <Column editable="true" title="Name" type="java.lang.String">
-                          <Data value="CNA"/>
-                        </Column>
-                        <Column editable="true" title="Telephone" type="java.lang.String">
-                          <Data value="0217654312"/>
-                        </Column>
-                        <Column editable="true" title="Cellphone" type="java.lang.String">
-                          <Data value="086578453"/>
-                        </Column>
-                        <Column editable="true" title="Email" type="java.lang.String">
-                          <Data value="cna@gmail.co.za"/>
-                        </Column>
-                        <Column editable="true" title="Address" type="java.lang.String">
-                          <Data value="12 Crescent Road"/>
-                        </Column>
-                        <Column editable="true" title="Website" type="java.lang.String">
-                          <Data value="www.cna.co.za"/>
-                        </Column>
-                        <Column editable="true" title="Description" type="java.lang.String">
-                          <Data value="Stationary Equiptment"/>
-                        </Column>
+                      <Table columnCount="8" rowCount="1">
+                        <Column editable="false" title="id" type="java.lang.Long"/>
+                        <Column editable="true" title="Name" type="java.lang.String"/>
+                        <Column editable="true" title="Telephone" type="java.lang.String"/>
+                        <Column editable="true" title="Cellphone" type="java.lang.String"/>
+                        <Column editable="true" title="Email" type="java.lang.String"/>
+                        <Column editable="true" title="Address" type="java.lang.String"/>
+                        <Column editable="true" title="Website" type="java.lang.String"/>
+                        <Column editable="true" title="Description" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

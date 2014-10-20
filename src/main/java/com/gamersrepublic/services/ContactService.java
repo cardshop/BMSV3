@@ -6,6 +6,8 @@
 
 package com.gamersrepublic.services;
 
+import com.gamersrepublic.domain.Supplier;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,5 +15,8 @@ import java.util.Map;
  * @author Luke
  */
 public interface ContactService {
-    public void addContact(Map model);
+    public Supplier addContact(Map model);
+    public Supplier updateContact(Map model);
+    public List<Supplier> populateContactList();
+    public boolean deleteContact(Long id);
 }
