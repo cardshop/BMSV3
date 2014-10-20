@@ -4,11 +4,14 @@ import com.gamersrepublic.domain.Employee;
 import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Supplier;
 import com.gamersrepublic.repository.SupplierRepository;
+import com.gamersrepublic.services.ContactService;
 import com.gamersrepublic.services.PaperCRUDService;
 import com.gamersrepublic.services.ReportService;
+import com.gamersrepublic.services.impl.ContactServiceImpl;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
 import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityGraph;
@@ -50,6 +53,7 @@ public class MainMenu extends javax.swing.JFrame {
     private SupplierRepository repo;
     private Employee user;
     private PaperCRUDService paperCRUDService;
+    private ContactService contactService;
     
     public MainMenu() {
         initComponents();
@@ -1587,7 +1591,19 @@ public class MainMenu extends javax.swing.JFrame {
                 .build();
         
         repo.save(supplier);
-*/
+*/      
+        Map attributes = new HashMap();
+        attributes.put("name", txtConName.getText());
+        attributes.put("address", txtConAddress.getText());
+        attributes.put("email", txtConEmail.getText());
+        attributes.put("cel", txtConCel.getText());
+        attributes.put("tel", txtConTel.getText());
+        attributes.put("website", txtConWeb.getText());
+        attributes.put("description", txtConDesc.getText());
+        
+        contactService = new ContactServiceImpl();
+        contactService.addContact(attributes);
+        
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
         model1.addRow(new Object[]{txtConName.getText(), txtConTel.getText(), txtConCel.getText(), txtConEmail.getText(),txtConAddress.getText(),txtConWeb.getText(),txtConDesc.getText() });
     }//GEN-LAST:event_btnAddContactActionPerformed
