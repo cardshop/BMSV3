@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Luke
  */
-public interface ReportService {
+public interface ReportService { 
     public List<CustomerInvoice> MonthlyOrdersProcessed();
     public Map StockReport();
 }
