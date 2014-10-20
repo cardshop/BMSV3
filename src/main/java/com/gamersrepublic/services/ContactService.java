@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Luke
  */
-public interface ContactService { 
+public interface ContactService {
     public Supplier addContact(Map model);
     public Supplier updateContact(Map model);
     public List<Supplier> populateContactList();
