@@ -24,9 +24,9 @@ public class Decoration implements Serializable {
     private Long id;
     private String descrip;
     private double price;
-    private double inventory;
+    private int inventory;
     private String colour;
-    private String decWidth;
+    private double decWidth;
     private double decLength;
     private String decSize;
     
@@ -48,9 +48,9 @@ public class Decoration implements Serializable {
         private Long id;
         private String descrip;
         private double price;
-        private double inventory;
+        private int inventory;
         private String colour;
-        private String decWidth;
+        private double decWidth;
         private double decLength;
         private String decSize;
         
@@ -68,7 +68,7 @@ public class Decoration implements Serializable {
             return this;
         }
         
-        public Builder inventory(double inventory){
+        public Builder inventory(int inventory){
             this.inventory = inventory;
             return this;
         }
@@ -78,7 +78,7 @@ public class Decoration implements Serializable {
             return this;
         }
         
-        public Builder decWidth(String decWidth){
+        public Builder decWidth(double decWidth){
             this.decWidth = decWidth;
             return this;
         }
@@ -169,7 +169,7 @@ public class Decoration implements Serializable {
         return price;
     }
 
-    public double  getInventory() {
+    public int  getInventory() {
         return inventory;
     }
 
@@ -177,7 +177,7 @@ public class Decoration implements Serializable {
         return colour;
     }
 
-    public String getDecWidth() {
+    public double getDecWidth() {
         return decWidth;
     }
 
@@ -187,5 +187,10 @@ public class Decoration implements Serializable {
 
     public String getDecSize() {
         return decSize;
+    }
+    
+    @Override
+    public String toString(){
+        return "Decoration";
     }
 }

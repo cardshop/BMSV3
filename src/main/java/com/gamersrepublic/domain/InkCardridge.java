@@ -202,6 +202,6 @@ public class InkCardridge implements Serializable {
 
     @Override
     public String toString() {
-        return "InkCardridge{" + "id=" + id + ", name=" + name + ", inventory=" + inventory + ", inkLevel=" + inkLevel + ", dateInstalled=" + dateInstalled + ", colour=" + colour + ", inUse=" + inUse + ", price=" + price + '}';
+        return "Ink";
     }
 }

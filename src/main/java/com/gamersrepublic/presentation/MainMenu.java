@@ -1,15 +1,19 @@
 package com.gamersrepublic.presentation;
 import com.gamersrepublic.config.ConnectionConfig;
 import com.gamersrepublic.domain.CustomerInvoice;
+import com.gamersrepublic.domain.Decoration;
 import com.gamersrepublic.domain.Employee;
+import com.gamersrepublic.domain.InkCardridge;
 import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Supplier;
 import com.gamersrepublic.repository.CustomerInvoiceRepository;
 import com.gamersrepublic.repository.SupplierRepository;
 import com.gamersrepublic.services.ContactService;
+import com.gamersrepublic.services.InventoryService;
 import com.gamersrepublic.services.PaperCRUDService;
 import com.gamersrepublic.services.ReportService;
 import com.gamersrepublic.services.impl.ContactServiceImpl;
+import com.gamersrepublic.services.impl.InventoryServiceImpl;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
 import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
@@ -58,6 +62,7 @@ public class MainMenu extends javax.swing.JFrame {
     private ContactService contactService;
     private CustomerInvoiceRepository customerInvoiceRepo;
     private ReportService reportService;
+    private InventoryService inventoryService;
     
     public MainMenu() {
         initComponents();
@@ -66,6 +71,7 @@ public class MainMenu extends javax.swing.JFrame {
         generateReports();
         populateContactList();
         populateSalesList();
+        populateInventoryList();
     }
 
     /**
@@ -1517,25 +1523,72 @@ public class MainMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void populateInventoryList(){
+        inventoryService = new InventoryServiceImpl();
+        DefaultTableModel model1 = (DefaultTableModel) tblInventory.getModel();
+        List<Object> inventoryList = inventoryService.populateInventoryList();
+        clearInventoryList();
+        for (Object object : inventoryList){
+            if (object.getClass() == Paper.class && cmbxType.getSelectedIndex()==1){
+                Paper paper = (Paper)object;
+                model1.addRow(new Object[]{paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+            }
+            
+            if (object.getClass() == Decoration.class && cmbxType.getSelectedIndex()==2){
+                Decoration decoration = (Decoration)object;
+                model1.addRow(new Object[]{decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+            }
+            
+            if (object.getClass() == InkCardridge.class && cmbxType.getSelectedIndex()==3){
+                InkCardridge inkCardridge = (InkCardridge)object;
+                model1.addRow(new Object[]{inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+            }
+            
+            if (cmbxType.getSelectedIndex()==0){
+                if (object.getClass() == Paper.class){
+                    Paper paper = (Paper)object;
+                    model1.addRow(new Object[]{paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+                }
+
+                if (object.getClass() == Decoration.class){
+                    Decoration decoration = (Decoration)object;
+                    model1.addRow(new Object[]{decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+                }
+
+                if (object.getClass() == InkCardridge.class){
+                    InkCardridge inkCardridge = (InkCardridge)object;
+                    model1.addRow(new Object[]{inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+                }
+            }
+        }
+    }
+    
     private void cmbxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxTypeActionPerformed
         // TODO add your handling code here:
+        if(cmbxType.getSelectedIndex()==0)
+        {
+            
+              populateInventoryList();
+    
+        }
+        
         if(cmbxType.getSelectedIndex()==1)
         {
             
-              model.insertRow(model.getRowCount(), new Object[]{"Paper", "Plain", "A4",  new Float(12.5),  new Integer(15)});
+              populateInventoryList();
     
         }
         
         if(cmbxType.getSelectedIndex()==2)
         {
             
-             model.insertRow(model.getRowCount(), new Object[] {"Decorations", "Silk", "3m",  new Float(50.0),  new Integer(10)});
+             populateInventoryList();
             
         }
         
             if(cmbxType.getSelectedIndex()==3)
         {
-             model.insertRow(model.getRowCount(), new Object[]  {"Ink", "Colour", "50ml",  new Float(250.0),  new Integer(2)});
+             populateInventoryList();
        
         }
     }//GEN-LAST:event_cmbxTypeActionPerformed
@@ -1641,7 +1694,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void populateContactList(){
         contactService = new ContactServiceImpl();
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
-        clearList();
+        clearContactList();
         if(contactService.populateContactList() != null){
             for (Supplier supplier : contactService.populateContactList()){
                 model1.addRow(new Object[]{supplier.getId(), supplier.getName(), supplier.getContactLandline(), supplier.getContactCellphone(), supplier.getEmailAddress(), supplier.getAddress(), supplier.getWebsiteURL(), supplier.getServiceDescrip() });
@@ -1712,8 +1765,18 @@ public class MainMenu extends javax.swing.JFrame {
         populateContactList();
     }//GEN-LAST:event_btnUpdateContactActionPerformed
 
-    private void clearList(){
+    private void clearContactList(){
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        
+        if (model1.getRowCount() > 0) {
+            for (int i = model1.getRowCount() - 1; i > -1; i--) {
+                model1.removeRow(i);
+            }
+        }
+    }
+    
+    private void clearInventoryList(){
+        DefaultTableModel model1 = (DefaultTableModel) tblInventory.getModel();
         
         if (model1.getRowCount() > 0) {
             for (int i = model1.getRowCount() - 1; i > -1; i--) {
