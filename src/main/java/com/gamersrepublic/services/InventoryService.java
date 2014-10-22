@@ -18,4 +18,5 @@ public interface InventoryService {
     public Object updateInventory(Map model);
     public List<Object> populateInventoryList();
     public boolean deleteInventory(Map model);
+    public Object getInventoryItem(Map model);
 }

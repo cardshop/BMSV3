@@ -17,6 +17,7 @@ import com.gamersrepublic.services.impl.InventoryServiceImpl;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
 import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -196,8 +197,6 @@ public class MainMenu extends javax.swing.JFrame {
         txtColour = new javax.swing.JTextField();
         lblGrammage = new javax.swing.JLabel();
         txtGrammage = new javax.swing.JTextField();
-        lblMicron = new javax.swing.JLabel();
-        txtMicron = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnItem = new javax.swing.JButton();
         dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
@@ -1033,15 +1032,22 @@ public class MainMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Type", "Description", "Size/Length", "Price", "Quantity"
+                "ID", "Type", "Description", "Size/Length", "Price", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblInventory.setName("tblInventory"); // NOI18N
@@ -1086,11 +1092,6 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         lblGrammage.setText("Grammage:");
-
-        lblMicron.setText("Micron: ");
-        lblMicron.setEnabled(false);
-
-        txtMicron.setEnabled(false);
 
         jLabel5.setText("Date Installed:");
         jLabel5.setEnabled(false);
@@ -1137,13 +1138,11 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblGrammage)
-                                    .addComponent(jLabel5)
-                                    .addComponent(lblMicron))))
+                                    .addComponent(jLabel5))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtColour)
                             .addComponent(txtGrammage)
-                            .addComponent(txtMicron)
                             .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlInventoryLayout.createSequentialGroup()
                         .addGap(314, 314, 314)
@@ -1172,9 +1171,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMicron, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMicron, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1531,33 +1528,33 @@ public class MainMenu extends javax.swing.JFrame {
         for (Object object : inventoryList){
             if (object.getClass() == Paper.class && cmbxType.getSelectedIndex()==1){
                 Paper paper = (Paper)object;
-                model1.addRow(new Object[]{paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+                model1.addRow(new Object[]{paper.getId(), paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
             }
             
             if (object.getClass() == Decoration.class && cmbxType.getSelectedIndex()==2){
                 Decoration decoration = (Decoration)object;
-                model1.addRow(new Object[]{decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+                model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
             }
             
             if (object.getClass() == InkCardridge.class && cmbxType.getSelectedIndex()==3){
                 InkCardridge inkCardridge = (InkCardridge)object;
-                model1.addRow(new Object[]{inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+                model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
             }
             
             if (cmbxType.getSelectedIndex()==0){
                 if (object.getClass() == Paper.class){
                     Paper paper = (Paper)object;
-                    model1.addRow(new Object[]{paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+                    model1.addRow(new Object[]{paper.getId(), paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
                 }
 
                 if (object.getClass() == Decoration.class){
                     Decoration decoration = (Decoration)object;
-                    model1.addRow(new Object[]{decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+                    model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
                 }
 
                 if (object.getClass() == InkCardridge.class){
                     InkCardridge inkCardridge = (InkCardridge)object;
-                    model1.addRow(new Object[]{inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+                    model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
                 }
             }
         }
@@ -1620,18 +1617,72 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void tblInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventoryMouseClicked
         // TODO add your handling code here:
-        if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Paper")
+        inventoryService = new InventoryServiceImpl();
+        if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Paper")
         {
             cmboxTypeInput.setSelectedIndex(0);
         }
-        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Decorations")
+        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Decorations")
         {
             cmboxTypeInput.setSelectedIndex(1);
         }
-        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Ink")
+        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Ink")
         {
             cmboxTypeInput.setSelectedIndex(2);
         }
+        
+        Map attributes = new HashMap();
+        
+        attributes.put("id", (Long)model.getValueAt(tblInventory.getSelectedRow() , 0));
+        attributes.put("type", model.getValueAt(tblInventory.getSelectedRow() , 1).toString());
+        
+        Object tempItem = inventoryService.getInventoryItem(attributes);
+        
+        if(tempItem.getClass()==Paper.class){
+            Paper item = (Paper)tempItem;
+            cmboxTypeInput.setSelectedIndex(0);
+            txtName.setEditable(false);
+            txtName.setText(item.getType() + ", " + item.getColour());
+            txtQuantity.setText(String.valueOf(item.getInventory()));
+            txtPrice.setText(String.valueOf(item.getPrice()));
+            txtSize.setEditable(true);
+            txtSize.setText(item.getSize());
+            txtColour.setText(item.getColour());
+            txtGrammage.setEditable(true);
+            txtGrammage.setText(item.getGrammage());
+            dateChooserCombo1.setEnabled(false);
+        }
+        else if(tempItem.getClass()==Decoration.class){
+            Decoration item = (Decoration)tempItem;
+            cmboxTypeInput.setSelectedIndex(1);
+            txtName.setEditable(false);
+            txtName.setText(item.toString() + ", " + item.getColour());
+            txtQuantity.setText(String.valueOf(item.getInventory()));
+            txtPrice.setText(String.valueOf(item.getPrice()));
+            txtSize.setEditable(true);
+            txtSize.setText(item.getDecSize());
+            txtColour.setText(item.getColour());
+            txtGrammage.setEditable(false);
+            txtGrammage.setText("N/A");
+            dateChooserCombo1.setEnabled(false);
+        }
+        else if(tempItem.getClass()==InkCardridge.class){
+            InkCardridge item = (InkCardridge)tempItem;
+            cmboxTypeInput.setSelectedIndex(2);
+            txtName.setEditable(true);
+            txtName.setText(item.getName());
+            txtQuantity.setText(String.valueOf(item.getInventory()));
+            txtPrice.setText(String.valueOf(item.getPrice()));
+            txtSize.setEditable(false);
+            txtSize.setText("Standard");
+            txtColour.setText(item.getColour());
+            txtGrammage.setEditable(false);
+            txtGrammage.setText("N/A");
+            dateChooserCombo1.setEnabled(true);
+            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+            dateChooserCombo1.setText(dateformat.format(item.getDateInstalled()));
+        }
+        else{}
         
         txtSize.setText(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 2)));
         txtPrice.setText(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 3)));
@@ -2001,7 +2052,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblInvetoryLevels9;
     private javax.swing.JLabel lblLamPockets;
     private javax.swing.JLabel lblMain;
-    private javax.swing.JLabel lblMicron;
     private javax.swing.JLabel lblOrder;
     private javax.swing.JLabel lblOrderDate;
     private javax.swing.JLabel lblOrderNumber;
@@ -2043,7 +2093,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField txtCrystalsUsed;
     private javax.swing.JTextField txtGlueUsed;
     private javax.swing.JTextField txtGrammage;
-    private javax.swing.JTextField txtMicron;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPodgeUsed;
     private javax.swing.JTextField txtPrice;

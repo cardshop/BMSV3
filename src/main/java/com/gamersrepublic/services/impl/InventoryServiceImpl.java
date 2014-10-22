@@ -201,5 +201,25 @@ public class InventoryServiceImpl implements InventoryService{
             return false;
         }
     }
+
+    @Override
+    public Object getInventoryItem(Map model) {
+        paperRepo = ctx.getBean(PaperRepository.class);
+        decorationRepo = ctx.getBean(DecorationRepository.class);
+        inkRepo = ctx.getBean(InkRepository.class);
+        
+        if(model.get("type").toString().equals("Paper")){
+            return paperRepo.findOne((Long)model.get("id"));
+        }
+        else if(model.get("type").toString().equals("Decoration")){
+            return decorationRepo.findOne((Long)model.get("id"));
+        }
+        else if(model.get("type").toString().equals("Ink")){
+            return inkRepo.findOne((Long)model.get("id"));
+        }
+        else{
+            return null;
+        }
+    }
     
 }

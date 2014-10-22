@@ -26,8 +26,6 @@ public class Decoration implements Serializable {
     private double price;
     private int inventory;
     private String colour;
-    private double decWidth;
-    private double decLength;
     private String decSize;
     
     private Decoration(){
@@ -39,8 +37,6 @@ public class Decoration implements Serializable {
         price = build.price;
         inventory = build.inventory;
         colour = build.colour;
-        decWidth = build.decWidth;
-        decLength = build.decLength;
         decSize = build.decSize;
     }
     
@@ -100,8 +96,6 @@ public class Decoration implements Serializable {
             price = d.getPrice();
             inventory = d.getInventory();
             colour = d.getColour();
-            decWidth = d.getDecWidth();
-            decLength = d.getDecLength();
             decSize = d.getDecSize();
             return this;
         }
@@ -141,12 +135,6 @@ public class Decoration implements Serializable {
         if (!Objects.equals(this.colour, other.colour)) {
             return false;
         }
-        if (!Objects.equals(this.decWidth, other.decWidth)) {
-            return false;
-        }
-        if (!Objects.equals(this.decLength, other.decLength)) {
-            return false;
-        }
         if (!Objects.equals(this.decSize, other.decSize)) {
             return false;
         }
@@ -175,14 +163,6 @@ public class Decoration implements Serializable {
 
     public String getColour() {
         return colour;
-    }
-
-    public double getDecWidth() {
-        return decWidth;
-    }
-
-    public double getDecLength() {
-        return decLength;
     }
 
     public String getDecSize() {

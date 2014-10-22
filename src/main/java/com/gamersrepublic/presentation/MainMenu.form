@@ -1701,12 +1701,13 @@
                     <Component class="javax.swing.JTable" name="tblInventory">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="5" rowCount="0">
-                            <Column editable="true" title="Type" type="java.lang.String"/>
-                            <Column editable="true" title="Description" type="java.lang.String"/>
-                            <Column editable="true" title="Size/Length" type="java.lang.String"/>
-                            <Column editable="true" title="Price" type="java.lang.String"/>
-                            <Column editable="true" title="Quantity" type="java.lang.String"/>
+                          <Table columnCount="6" rowCount="0">
+                            <Column editable="false" title="ID" type="java.lang.Long"/>
+                            <Column editable="false" title="Type" type="java.lang.String"/>
+                            <Column editable="false" title="Description" type="java.lang.String"/>
+                            <Column editable="false" title="Size/Length" type="java.lang.String"/>
+                            <Column editable="false" title="Price" type="java.lang.String"/>
+                            <Column editable="false" title="Quantity" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="name" type="java.lang.String" value="tblInventory" noResource="true"/>
@@ -1771,7 +1772,6 @@
                                               <Group type="103" groupAlignment="1" attributes="0">
                                                   <Component id="lblGrammage" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblMicron" alignment="1" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -1779,7 +1779,6 @@
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="txtColour" max="32767" attributes="0"/>
                                           <Component id="txtGrammage" max="32767" attributes="0"/>
-                                          <Component id="txtMicron" alignment="0" max="32767" attributes="0"/>
                                           <Component id="dateChooserCombo1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -1818,8 +1817,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblMicron" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                  <Component id="txtMicron" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -1901,17 +1898,6 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtGrammage">
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblMicron">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Micron: "/>
-                        <Property name="enabled" type="boolean" value="false"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="txtMicron">
-                      <Properties>
-                        <Property name="enabled" type="boolean" value="false"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel5">
                       <Properties>
