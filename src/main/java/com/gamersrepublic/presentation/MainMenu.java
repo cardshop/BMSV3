@@ -4,21 +4,26 @@ import com.gamersrepublic.domain.CustomerInvoice;
 import com.gamersrepublic.domain.Decoration;
 import com.gamersrepublic.domain.Employee;
 import com.gamersrepublic.domain.InkCardridge;
+import com.gamersrepublic.domain.OrderItem;
 import com.gamersrepublic.domain.Paper;
 import com.gamersrepublic.domain.Supplier;
 import com.gamersrepublic.repository.CustomerInvoiceRepository;
+import com.gamersrepublic.repository.PaperRepository;
 import com.gamersrepublic.repository.SupplierRepository;
 import com.gamersrepublic.services.ContactService;
 import com.gamersrepublic.services.InventoryService;
+import com.gamersrepublic.services.OrderService;
 import com.gamersrepublic.services.PaperCRUDService;
 import com.gamersrepublic.services.ReportService;
 import com.gamersrepublic.services.impl.ContactServiceImpl;
 import com.gamersrepublic.services.impl.InventoryServiceImpl;
+import com.gamersrepublic.services.impl.OrderServiceImpl;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
 import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +71,7 @@ public class MainMenu extends javax.swing.JFrame {
     private CustomerInvoiceRepository customerInvoiceRepo;
     private ReportService reportService;
     private InventoryService inventoryService;
+    private OrderService orderService;
     
     public MainMenu() {
         initComponents();
@@ -106,7 +112,6 @@ public class MainMenu extends javax.swing.JFrame {
         lblOrderDate = new javax.swing.JLabel();
         lblDueDate = new javax.swing.JLabel();
         btnProcessOrder = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         lblCustomerName = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -124,14 +129,6 @@ public class MainMenu extends javax.swing.JFrame {
         radioNo = new javax.swing.JRadioButton();
         radioYes = new javax.swing.JRadioButton();
         panelDecorations = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        lblRibbonType = new javax.swing.JLabel();
-        lblAmountRibbonUsed = new javax.swing.JLabel();
-        txtRibbonUsed = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        btnRibbon = new javax.swing.JButton();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tableRibbon = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
         lblCrystalsUsed = new javax.swing.JLabel();
         lblGlueUsed = new javax.swing.JLabel();
@@ -158,6 +155,7 @@ public class MainMenu extends javax.swing.JFrame {
         txtQuant = new javax.swing.JTextField();
         btnProcess = new javax.swing.JButton();
         btnProc = new javax.swing.JButton();
+        dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
         lblInvetoryLevels5 = new javax.swing.JLabel();
         lblInvetoryLevels8 = new javax.swing.JLabel();
         lblInvetoryLevels9 = new javax.swing.JLabel();
@@ -206,8 +204,6 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel14 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblInvetoryLevels6 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        lblInvetoryLevels2 = new javax.swing.JLabel();
         pnlContacts = new javax.swing.JPanel();
         pnlInventory2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -348,16 +344,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnProcessOrder.setText("Process Order");
         jPanel3.add(btnProcessOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1318, 635, -1, -1));
-
-        jTextField1.setText("Order Due Date");
-        jPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 151, -1));
         jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1379, 49, 50, 10));
 
         lblCustomerName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblCustomerName.setText("Customer Name:");
         jPanel3.add(lblCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, -1, -1));
-
-        jTextField2.setText("Customer Name");
         jPanel3.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 151, -1));
 
         lblProductType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -372,12 +363,10 @@ public class MainMenu extends javax.swing.JFrame {
         lblPaperType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPaperType.setText("Paper Type:");
 
-        comboPaper.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "White", "Black", "Glossy" }));
+        comboPaper.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "White", "Black", "Colour" }));
 
         lblSheetsUsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSheetsUsed.setText("Amount of Sheets Used:");
-
-        txtSheetsUsed.setText("Amount");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -399,6 +388,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnPaper.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnPaper.setText("Add");
+        btnPaper.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaperActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -414,7 +408,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboPaper, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSheetsUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtSheetsUsed, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnPaper)
                         .addGap(108, 108, 108)))
@@ -457,80 +451,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         panelDecorations.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Decorations Used", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Ribbons", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        lblRibbonType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRibbonType.setText("Ribbon Type:");
-
-        lblAmountRibbonUsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblAmountRibbonUsed.setText("Amount Ribbon Used (m):");
-
-        txtRibbonUsed.setText("Amount");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Silk Ribbon", "Normal Ribbon" }));
-
-        btnRibbon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnRibbon.setText("Add");
-
-        tableRibbon.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Ribbon Type", "Amount Used (m)"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane7.setViewportView(tableRibbon);
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblRibbonType)
-                            .addComponent(lblAmountRibbonUsed))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtRibbonUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRibbon)
-                        .addGap(163, 163, 163)))
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRibbonType)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAmountRibbonUsed)
-                    .addComponent(txtRibbonUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRibbon)
-                .addGap(4, 11, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Other", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         lblCrystalsUsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -542,16 +462,11 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Amount of Podge Used(ml):");
 
-        txtCrystalsUsed.setText("Amount");
         txtCrystalsUsed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCrystalsUsedActionPerformed(evt);
             }
         });
-
-        txtGlueUsed.setText("Amount");
-
-        txtPodgeUsed.setText("Amount");
 
         lblBeadsUsed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblBeadsUsed.setText("Amount of Beads Used: ");
@@ -562,16 +477,11 @@ public class MainMenu extends javax.swing.JFrame {
         lblLamPockets.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLamPockets.setText("Amount of Laminating Pockets Used:");
 
-        txtBeadsUsed.setText("Amount");
         txtBeadsUsed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBeadsUsedActionPerformed(evt);
             }
         });
-
-        txtAmountSpray.setText("Amount");
-
-        Amount.setText("Amount");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -579,33 +489,32 @@ public class MainMenu extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(80, 80, 80)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(lblGlueUsed)
+                        .addComponent(lblCrystalsUsed)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtGlueUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel12Layout.createSequentialGroup()
-                            .addComponent(lblCrystalsUsed)
+                        .addComponent(txtCrystalsUsed, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createSequentialGroup()
+                            .addGap(8, 8, 8)
+                            .addComponent(lblGlueUsed)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtCrystalsUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(3, 3, 3))
+                            .addComponent(txtGlueUsed))
                         .addGroup(jPanel12Layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtPodgeUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(37, 37, 37)
+                            .addComponent(txtPodgeUsed, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(4, 4, 4)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblLamPockets)
                     .addComponent(lblAmountSpray, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblBeadsUsed, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBeadsUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAmountSpray, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtBeadsUsed, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                    .addComponent(txtAmountSpray)
+                    .addComponent(Amount))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,7 +537,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(txtPodgeUsed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblLamPockets)
                     .addComponent(Amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelDecorationsLayout = new javax.swing.GroupLayout(panelDecorations);
@@ -637,16 +546,13 @@ public class MainMenu extends javax.swing.JFrame {
             panelDecorationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDecorationsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDecorationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelDecorationsLayout.setVerticalGroup(
             panelDecorationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDecorationsLayout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDecorationsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -705,6 +611,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnAddToOrder.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnAddToOrder.setText("Add To Order");
+        btnAddToOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddToOrderActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnAddToOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 580, -1, -1));
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Pricing Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -712,12 +623,8 @@ public class MainMenu extends javax.swing.JFrame {
         lblUnitPrice.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUnitPrice.setText("Unit Price R:");
 
-        txtUnitPrice.setText("txtUnitPrice");
-
         lblQuantity.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblQuantity.setText("Quantity:");
-
-        txtQuant.setText("txtQuant");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -753,7 +660,16 @@ public class MainMenu extends javax.swing.JFrame {
 
         btnProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnProc.setText("Process Order");
+        btnProc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnProc, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 680, -1, 24));
+
+        dateChooserCombo2.setCalendarPreferredSize(new java.awt.Dimension(350, 180));
+        dateChooserCombo2.setCurrentNavigateIndex(0);
+        jPanel3.add(dateChooserCombo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
 
         lblInvetoryLevels5.setBackground(new java.awt.Color(95, 136, 177));
         lblInvetoryLevels5.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
@@ -1226,28 +1142,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Inventory Manager", pnlInvManager);
 
-        lblInvetoryLevels2.setBackground(new java.awt.Color(95, 136, 177));
-        lblInvetoryLevels2.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
-        lblInvetoryLevels2.setForeground(new java.awt.Color(255, 255, 255));
-        lblInvetoryLevels2.setOpaque(true);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(lblInvetoryLevels2, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(lblInvetoryLevels2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 709, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Help", jPanel4);
-
         pnlContacts.setLayout(null);
 
         pnlInventory2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Filter", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Constantia", 0, 14))); // NOI18N
@@ -1310,7 +1204,7 @@ public class MainMenu extends javax.swing.JFrame {
             pnlInventory2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInventory2Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 47, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pnlContacts.add(pnlInventory2);
@@ -1528,116 +1422,112 @@ public class MainMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void populateInventoryList(){
-        inventoryService = new InventoryServiceImpl();
-        DefaultTableModel model1 = (DefaultTableModel) tblInventory.getModel();
-        List<Object> inventoryList = inventoryService.populateInventoryList();
-        clearInventoryList();
-        for (Object object : inventoryList){
-            if (object.getClass() == Paper.class && cmbxType.getSelectedIndex()==1){
-                Paper paper = (Paper)object;
-                model1.addRow(new Object[]{paper.getId(), paper.toString(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
-            }
-            
-            if (object.getClass() == Decoration.class && cmbxType.getSelectedIndex()==2){
-                Decoration decoration = (Decoration)object;
-                model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
-            }
-            
-            if (object.getClass() == InkCardridge.class && cmbxType.getSelectedIndex()==3){
-                InkCardridge inkCardridge = (InkCardridge)object;
-                model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
-            }
-            
-            if (cmbxType.getSelectedIndex()==0){
-                if (object.getClass() == Paper.class){
-                    Paper paper = (Paper)object;
-                    model1.addRow(new Object[]{paper.getId(), paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
-                }
-
-                if (object.getClass() == Decoration.class){
-                    Decoration decoration = (Decoration)object;
-                    model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
-                }
-
-                if (object.getClass() == InkCardridge.class){
-                    InkCardridge inkCardridge = (InkCardridge)object;
-                    model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
-                }
-            }
-        }
-    }
-    
-    private void cmbxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxTypeActionPerformed
+    private void tblContactsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContactsMouseClicked
         // TODO add your handling code here:
-        if(cmbxType.getSelectedIndex()==0)
-        {
-            
-              populateInventoryList();
-    
-        }
-        
-        if(cmbxType.getSelectedIndex()==1)
-        {
-            
-              populateInventoryList();
-    
-        }
-        
-        if(cmbxType.getSelectedIndex()==2)
-        {
-            
-             populateInventoryList();
-            
-        }
-        
-            if(cmbxType.getSelectedIndex()==3)
-        {
-             populateInventoryList();
-       
-        }
-    }//GEN-LAST:event_cmbxTypeActionPerformed
+        txtConName.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 1)));
+        txtConTel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 2)));
+        txtConCel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 3)));
+        txtConEmail.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 4)));
+        txtConAddress.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 5)));
+        txtConWeb.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 6)));
+        txtConDesc.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 7)));
+    }//GEN-LAST:event_tblContactsMouseClicked
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        inventoryService = new InventoryServiceImpl();
+    private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
+        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Confirm",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        contactService = new ContactServiceImpl();
+
+        if(response==0){
+            contactService.deleteContact((Long)model1.getValueAt(tblContacts.getSelectedRow(),0));
+            model1.removeRow(tblContacts.getSelectedRow());
+            JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
+        }
+        else{
+            return;
+        }
+    }//GEN-LAST:event_btnDeleteContactActionPerformed
+
+    private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed
+        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        supplierRepo = ctx.getBean(SupplierRepository.class);
+        List<Supplier> suppliers = supplierRepo.findAll();
+        contactService = new ContactServiceImpl();
+
+        for(Supplier supplier : suppliers){
+            if(model1.getValueAt(tblContacts.getSelectedRow(),0) == supplier.getId()){
+                Map attributes = new HashMap();
+                attributes.put("name", txtConName.getText());
+                attributes.put("address", txtConAddress.getText());
+                attributes.put("email", txtConEmail.getText());
+                attributes.put("cel", txtConCel.getText());
+                attributes.put("tel", txtConTel.getText());
+                attributes.put("website", txtConWeb.getText());
+                attributes.put("description", txtConDesc.getText());
+                attributes.put("id", supplier.getId());
+
+                contactService.updateContact(attributes);
+            }
+        }
+
+        populateContactList();
+    }//GEN-LAST:event_btnUpdateContactActionPerformed
+
+    private void btnAddContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContactActionPerformed
+        // TODO add your handling code here:
+        /*
+        repo = ctx.getBean(SupplierRepository.class);
+        String name = txtConName.getText();
+        String tel = txtConTel.getText();
+        String cel = txtConCel.getText();
+        String addr = txtConAddress.getText();
+        String web = txtConWeb.getText();
+        String emailAd = txtConEmail.getText();
+
+        Supplier supplier = new Supplier.Builder(name)
+        .address(addr)
+        .contactCellphone(cel)
+        .emailAddress(emailAd)
+        .contactLandline(tel)
+        .websiteURL(web)
+        .build();
+
+        repo.save(supplier);
+        */
         Map attributes = new HashMap();
-        if(cmboxTypeInput.getSelectedIndex() == 0){
-            attributes.put("type", "Paper");
-            attributes.put("grammage", txtGrammage.getText());
-            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
-            attributes.put("price", String.valueOf(txtPrice.getText()));
-            attributes.put("size", txtSize.getText());
-            attributes.put("colour", txtColour.getText());
-            
-            inventoryService.addInventory(attributes);
-            populateInventoryList();
-        }
-        else if(cmboxTypeInput.getSelectedIndex() == 1){
-            attributes.put("type", "Decorations");
-            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
-            attributes.put("price", String.valueOf(txtPrice.getText()));
-            attributes.put("size", txtSize.getText());
-            attributes.put("colour", txtColour.getText());
-            
-            inventoryService.addInventory(attributes);
-            populateInventoryList();
-        }
-        else if(cmboxTypeInput.getSelectedIndex() == 2)
-        {
-            DateFormat formatter = new SimpleDateFormat("yyy/MM/dd");
-            attributes.put("type", "Ink");
-            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
-            attributes.put("price", String.valueOf(txtPrice.getText()));
-            attributes.put("size", txtSize.getText());
-            attributes.put("colour", txtColour.getText());
-            try{
-                attributes.put("dateInstalled", (Date)formatter.parse(dateChooserCombo1.getText()));
-            }catch(Exception e){}
-            
-            inventoryService.addInventory(attributes);
-            populateInventoryList();
-        }else{}
-    }//GEN-LAST:event_btnAddActionPerformed
+        attributes.put("name", txtConName.getText());
+        attributes.put("address", txtConAddress.getText());
+        attributes.put("email", txtConEmail.getText());
+        attributes.put("cel", txtConCel.getText());
+        attributes.put("tel", txtConTel.getText());
+        attributes.put("website", txtConWeb.getText());
+        attributes.put("description", txtConDesc.getText());
+
+        contactService = new ContactServiceImpl();
+        Supplier supplier = contactService.addContact(attributes);
+
+        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
+        //model1.addRow(new Object[]{supplier.getId(), txtConName.getText(), txtConTel.getText(), txtConCel.getText(), txtConEmail.getText(),txtConAddress.getText(),txtConWeb.getText(),txtConDesc.getText() });
+        model1.addRow(new Object[]{supplier.getId(), supplier.getName(), supplier.getContactLandline(), supplier.getContactCellphone(), supplier.getEmailAddress(), supplier.getAddress(), supplier.getWebsiteURL(), supplier.getServiceDescrip() });
+    }//GEN-LAST:event_btnAddContactActionPerformed
+
+    private void btnItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnItemActionPerformed
+
+    private void txtColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColourActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColourActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
+
+    private void cmboxTypeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxTypeInputActionPerformed
+        setInventoryFields();
+    }//GEN-LAST:event_cmboxTypeInputActionPerformed
 
     private void tblInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventoryMouseClicked
         // TODO add your handling code here:
@@ -1654,14 +1544,14 @@ public class MainMenu extends javax.swing.JFrame {
         {
             cmboxTypeInput.setSelectedIndex(2);
         }
-        
+
         Map attributes = new HashMap();
-        
+
         attributes.put("id", (Long)model.getValueAt(tblInventory.getSelectedRow() , 0));
         attributes.put("type", model.getValueAt(tblInventory.getSelectedRow() , 1).toString());
-        
+
         Object tempItem = inventoryService.getInventoryItem(attributes);
-        
+
         if(tempItem.getClass()==Paper.class){
             Paper item = (Paper)tempItem;
             cmboxTypeInput.setSelectedIndex(0);
@@ -1721,7 +1611,33 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblInventoryMouseClicked
 
- 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Confirm",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        if(response==0){
+            Map attributes = new HashMap();
+            inventoryService = new InventoryServiceImpl();
+            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
+            attributes.put("type", model.getValueAt(tblInventory.getSelectedRow() , 1));
+
+            if(inventoryService.deleteInventory(attributes)){
+                model.removeRow(tblInventory.getSelectedRow());
+                populateInventoryList();
+                JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"An error occurred and the record was NOT deleted.");
+            }
+
+        }
+        else{
+            return;
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         inventoryService = new InventoryServiceImpl();
@@ -1735,7 +1651,7 @@ public class MainMenu extends javax.swing.JFrame {
             attributes.put("price", String.valueOf(txtPrice.getText()));
             attributes.put("size", txtSize.getText());
             attributes.put("colour", txtColour.getText());
-            
+
             inventoryService.updateInventory(attributes);
             populateInventoryList();
         }
@@ -1747,7 +1663,7 @@ public class MainMenu extends javax.swing.JFrame {
             attributes.put("price", String.valueOf(txtPrice.getText()));
             attributes.put("size", txtSize.getText());
             attributes.put("colour", txtColour.getText());
-            
+
             inventoryService.updateInventory(attributes);
             populateInventoryList();
         }
@@ -1763,44 +1679,203 @@ public class MainMenu extends javax.swing.JFrame {
             try{
                 attributes.put("dateInstalled", (Date)formatter.parse(dateChooserCombo1.getText()));
             }catch(Exception e){}
-            
+
             inventoryService.updateInventory(attributes);
             populateInventoryList();
         }else{}
-        
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        inventoryService = new InventoryServiceImpl();
+        Map attributes = new HashMap();
+        if(cmboxTypeInput.getSelectedIndex() == 0){
+            attributes.put("type", "Paper");
+            attributes.put("grammage", txtGrammage.getText());
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
 
-        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Confirm",
-        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);       
-
-         
-        if(response==0){
-            Map attributes = new HashMap();
-            inventoryService = new InventoryServiceImpl();
-            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
-            attributes.put("type", model.getValueAt(tblInventory.getSelectedRow() , 1));
-            
-            if(inventoryService.deleteInventory(attributes)){
-                model.removeRow(tblInventory.getSelectedRow());
-                populateInventoryList();
-                JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"An error occurred and the record was NOT deleted.");
-            }
-            
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
         }
-        else{
-            return;
+        else if(cmboxTypeInput.getSelectedIndex() == 1){
+            attributes.put("type", "Decorations");
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
+        }
+        else if(cmboxTypeInput.getSelectedIndex() == 2)
+        {
+            DateFormat formatter = new SimpleDateFormat("yyy/MM/dd");
+            attributes.put("type", "Ink");
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+            try{
+                attributes.put("dateInstalled", (Date)formatter.parse(dateChooserCombo1.getText()));
+            }catch(Exception e){}
+
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
+        }else{}
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void cmbxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxTypeActionPerformed
+        // TODO add your handling code here:
+        if(cmbxType.getSelectedIndex()==0)
+        {
+
+            populateInventoryList();
+
+        }
+
+        if(cmbxType.getSelectedIndex()==1)
+        {
+
+            populateInventoryList();
+
+        }
+
+        if(cmbxType.getSelectedIndex()==2)
+        {
+
+            populateInventoryList();
+
+        }
+
+        if(cmbxType.getSelectedIndex()==3)
+        {
+            populateInventoryList();
+
+        }
+    }//GEN-LAST:event_cmbxTypeActionPerformed
+
+    private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblSalesMouseClicked
+
+    private void tblInventory1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventory1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblInventory1MouseClicked
+
+    private void txtBeadsUsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeadsUsedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBeadsUsedActionPerformed
+
+    private void txtCrystalsUsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCrystalsUsedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCrystalsUsedActionPerformed
+
+    private void btnAddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToOrderActionPerformed
+        Map attributes = new HashMap();
+        attributes.put("type", productTypeCombo.getSelectedItem().toString());
+        attributes.put("price", Double.parseDouble(txtUnitPrice.getText()));
+        attributes.put("quantity", Integer.parseInt(txtQuant.getText()));
+        DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) tblInventory1.getModel();
+        List<Paper> pages = new ArrayList(); 
+        Paper page;
+        PaperRepository paperRepo = ctx.getBean(PaperRepository.class);
+        for(int i=0; i < model1.getRowCount(); i++){
+            
+            page = new Paper.Builder("Paper")
+                    .colour(model1.getValueAt(i, 0).toString())
+                    .inventory((int)model1.getValueAt(i, 1))
+                    .build();
+            paperRepo.save(page);
+            pages.add(page);
         }
         
-    }//GEN-LAST:event_btnDeleteActionPerformed
+        orderService = new OrderServiceImpl();
+        OrderItem orderItem = orderService.addOrder(attributes, pages);
+        
+        model2.addRow(new Object[]{orderItem.getProduct().getDescription(), orderItem.getProduct().getUnitPrice(), orderItem.getQuantity()});
+        
+    }//GEN-LAST:event_btnAddToOrderActionPerformed
 
+    private void btnPaperActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaperActionPerformed
+        Paper paper = new Paper.Builder("Paper")
+                .colour(comboPaper.getSelectedItem().toString())
+                .inventory(Integer.parseInt(txtSheetsUsed.getText()))
+                .build();
+        
+        DefaultTableModel table1 = (DefaultTableModel) jTable1.getModel();
+        table1.addRow(new Object[]{paper.getColour(), paper.getInventory()});
+    }//GEN-LAST:event_btnPaperActionPerformed
+
+    private void btnProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcActionPerformed
+        orderService = new OrderServiceImpl();
+        orderService.generateInvoice();
+        jTextField2.setText("");
+        txtSheetsUsed.setText("");
+        txtCrystalsUsed.setText("");
+        txtGlueUsed.setText("");
+        txtPodgeUsed.setText("");
+        txtBeadsUsed.setText("");
+        txtAmountSpray.setText("");
+        Amount.setText("");
+        populateSalesList();
+    }//GEN-LAST:event_btnProcActionPerformed
+
+    private void populateInventoryList(){
+        inventoryService = new InventoryServiceImpl();
+        DefaultTableModel model1 = (DefaultTableModel) tblInventory.getModel();
+        List<Object> inventoryList = inventoryService.populateInventoryList();
+        clearInventoryList();
+        
+        for (Object object : inventoryList){
+            if (object.getClass() == Paper.class && cmbxType.getSelectedIndex()==1){
+                Paper paper = (Paper)object;
+                model1.addRow(new Object[]{paper.getId(), paper.toString(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+            }
+            
+            if (object.getClass() == Decoration.class && cmbxType.getSelectedIndex()==2){
+                Decoration decoration = (Decoration)object;
+                model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+            }
+            
+            if (object.getClass() == InkCardridge.class && cmbxType.getSelectedIndex()==3){
+                InkCardridge inkCardridge = (InkCardridge)object;
+                model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+            }
+            
+            if (cmbxType.getSelectedIndex()==0){
+                if (object.getClass() == Paper.class){
+                    Paper paper = (Paper)object;
+                    model1.addRow(new Object[]{paper.getId(), paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+                }
+
+                if (object.getClass() == Decoration.class){
+                    Decoration decoration = (Decoration)object;
+                    model1.addRow(new Object[]{decoration.getId(), decoration.toString(), decoration.getColour(), decoration.getDecSize(), decoration.getPrice(), decoration.getInventory() });
+                }
+
+                if (object.getClass() == InkCardridge.class){
+                    InkCardridge inkCardridge = (InkCardridge)object;
+                    model1.addRow(new Object[]{inkCardridge.getId(), inkCardridge.toString(), inkCardridge.getColour(), "Standard", inkCardridge.getPrice(), inkCardridge.getInventory() });
+                }
+            }
+        }
+        
+    }
+    
+ 
     private void populateSalesList(){
         reportService = new ReportServiceImpl();
         DefaultTableModel model1 = (DefaultTableModel) tblSales.getModel();
+        
+        if (model1.getRowCount() > 0) {
+            for (int i = model1.getRowCount() - 1; i > -1; i--) {
+                model1.removeRow(i);
+            }
+        }
         
         if(reportService.MonthlyOrdersProcessed() != null){
             for (CustomerInvoice customerInvoice : reportService.MonthlyOrdersProcessed()){
@@ -1820,69 +1895,6 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     
-    private void btnAddContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContactActionPerformed
-        // TODO add your handling code here:
-        /*
-        repo = ctx.getBean(SupplierRepository.class);
-        String name = txtConName.getText();
-        String tel = txtConTel.getText();
-        String cel = txtConCel.getText();
-        String addr = txtConAddress.getText();
-        String web = txtConWeb.getText();
-        String emailAd = txtConEmail.getText();
-        
-        Supplier supplier = new Supplier.Builder(name)
-                .address(addr)
-                .contactCellphone(cel)
-                .emailAddress(emailAd)
-                .contactLandline(tel)
-                .websiteURL(web)
-                .build();
-        
-        repo.save(supplier);
-*/      
-        Map attributes = new HashMap();
-        attributes.put("name", txtConName.getText());
-        attributes.put("address", txtConAddress.getText());
-        attributes.put("email", txtConEmail.getText());
-        attributes.put("cel", txtConCel.getText());
-        attributes.put("tel", txtConTel.getText());
-        attributes.put("website", txtConWeb.getText());
-        attributes.put("description", txtConDesc.getText());
-        
-        contactService = new ContactServiceImpl();
-        Supplier supplier = contactService.addContact(attributes);
-        
-        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
-        //model1.addRow(new Object[]{supplier.getId(), txtConName.getText(), txtConTel.getText(), txtConCel.getText(), txtConEmail.getText(),txtConAddress.getText(),txtConWeb.getText(),txtConDesc.getText() });
-        model1.addRow(new Object[]{supplier.getId(), supplier.getName(), supplier.getContactLandline(), supplier.getContactCellphone(), supplier.getEmailAddress(), supplier.getAddress(), supplier.getWebsiteURL(), supplier.getServiceDescrip() });
-    }//GEN-LAST:event_btnAddContactActionPerformed
-
-    private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed
-        DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
-        supplierRepo = ctx.getBean(SupplierRepository.class);
-        List<Supplier> suppliers = supplierRepo.findAll();
-        contactService = new ContactServiceImpl();
-        
-        for(Supplier supplier : suppliers){
-            if(model1.getValueAt(tblContacts.getSelectedRow(),0) == supplier.getId()){
-                Map attributes = new HashMap();
-                attributes.put("name", txtConName.getText());
-                attributes.put("address", txtConAddress.getText());
-                attributes.put("email", txtConEmail.getText());
-                attributes.put("cel", txtConCel.getText());
-                attributes.put("tel", txtConTel.getText());
-                attributes.put("website", txtConWeb.getText());
-                attributes.put("description", txtConDesc.getText());
-                attributes.put("id", supplier.getId());
-
-                contactService.updateContact(attributes);
-            }
-        }
-        
-        populateContactList();
-    }//GEN-LAST:event_btnUpdateContactActionPerformed
-
     private void clearContactList(){
         DefaultTableModel model1 = (DefaultTableModel) tblContacts.getModel();
         
@@ -1902,70 +1914,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
-        // TODO add your handling code here:
-         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Confirm",
-        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE); 
-        contactService = new ContactServiceImpl();
         
-        if(response==0){
-            contactService.deleteContact((Long)model1.getValueAt(tblContacts.getSelectedRow(),0));
-            model1.removeRow(tblContacts.getSelectedRow());
-            JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
-        }
-        else{
-            return;
-        }
-    }//GEN-LAST:event_btnDeleteContactActionPerformed
-
-    private void tblContactsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContactsMouseClicked
-        // TODO add your handling code here:
-        txtConName.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 1)));
-        txtConTel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 2)));
-        txtConCel.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 3)));
-        txtConEmail.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 4)));
-        txtConAddress.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 5)));
-        txtConWeb.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 6)));
-        txtConDesc.setText(String.valueOf(model1.getValueAt(tblContacts.getSelectedRow() , 7)));
-    }//GEN-LAST:event_tblContactsMouseClicked
-
-    private void tblInventory1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventory1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblInventory1MouseClicked
-
-    private void txtBeadsUsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeadsUsedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBeadsUsedActionPerformed
-
-    private void txtCrystalsUsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCrystalsUsedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCrystalsUsedActionPerformed
-
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
-
-    private void btnItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItemActionPerformed
-  
-        
-   
-        
-// TODO add your handling code here:
-    }//GEN-LAST:event_btnItemActionPerformed
-
-    private void txtColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColourActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtColourActionPerformed
-
-    private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblSalesMouseClicked
-
-    private void cmboxTypeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxTypeInputActionPerformed
-        setInventoryFields();
-    }//GEN-LAST:event_cmboxTypeInputActionPerformed
-    
     public void setInventoryFields(){
         if(cmboxTypeInput.getSelectedIndex() == 0){
             txtName.setEditable(false);
@@ -2059,7 +2008,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnProc;
     private javax.swing.JButton btnProcess;
     private javax.swing.JButton btnProcessOrder;
-    private javax.swing.JButton btnRibbon;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateContact;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -2068,12 +2016,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JComboBox cmbxType;
     private javax.swing.JComboBox comboPaper;
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
+    private datechooser.beans.DateChooserCombo dateChooserCombo2;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
     private javax.swing.JLabel decorationsCount;
     private javax.swing.JLabel inkCount;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2099,7 +2047,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
@@ -2107,7 +2054,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -2118,15 +2064,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lblAmountRibbonUsed;
     private javax.swing.JLabel lblAmountSpray;
     private javax.swing.JLabel lblBeadsUsed;
     private javax.swing.JLabel lblCollected;
@@ -2140,7 +2083,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblInvetoryLevels;
     private javax.swing.JLabel lblInvetoryLevels1;
     private javax.swing.JLabel lblInvetoryLevels10;
-    private javax.swing.JLabel lblInvetoryLevels2;
     private javax.swing.JLabel lblInvetoryLevels3;
     private javax.swing.JLabel lblInvetoryLevels4;
     private javax.swing.JLabel lblInvetoryLevels5;
@@ -2156,7 +2098,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblPaperType;
     private javax.swing.JLabel lblProductType;
     private javax.swing.JLabel lblQuantity;
-    private javax.swing.JLabel lblRibbonType;
     private javax.swing.JLabel lblSheetsUsed;
     private javax.swing.JLabel lblUnitPrice;
     private javax.swing.JPanel panelDecorations;
@@ -2172,7 +2113,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JComboBox productTypeCombo;
     private javax.swing.JRadioButton radioNo;
     private javax.swing.JRadioButton radioYes;
-    private javax.swing.JTable tableRibbon;
     private javax.swing.JTable tblContacts;
     private javax.swing.JTable tblInventory;
     private javax.swing.JTable tblInventory1;
@@ -2196,7 +2136,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtQuant;
     private javax.swing.JTextField txtQuantity;
-    private javax.swing.JTextField txtRibbonUsed;
     private javax.swing.JTextField txtSheetsUsed;
     private javax.swing.JTextField txtSize;
     private javax.swing.JTextField txtUnitPrice;

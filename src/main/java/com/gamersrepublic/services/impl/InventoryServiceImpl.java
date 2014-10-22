@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -86,7 +87,7 @@ public class InventoryServiceImpl implements InventoryService{
             paperRepo = ctx.getBean(PaperRepository.class);
             
             Paper paperOld = paperRepo.findOne((Long)model.get("id"));
-            
+            JOptionPane.showMessageDialog(null,"Paper Item: '" + model.get("type").toString() + "'\nID: " + model.get("id"));
             Paper paper = new Paper.Builder(model.get("type").toString())
                     .clone(paperOld)
                     .grammage(model.get("grammage").toString())

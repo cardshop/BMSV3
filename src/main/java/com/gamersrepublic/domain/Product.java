@@ -48,7 +48,6 @@ public class Product implements Serializable {
         this.paperUsed = build.paperUsed;
         this.unitPrice = build.unitPrice;
         this.description = build.description;
-        this.decorationsUsed = build.decorationsUsed; 
     }
     
     public static class Builder{
@@ -56,7 +55,6 @@ public class Product implements Serializable {
                private List<Paper> paperUsed;
                private double unitPrice; 
                private String description;
-               private List<Decoration> decorationsUsed;
                
            public Builder(String description){
                 this.description = description;
@@ -72,11 +70,6 @@ public class Product implements Serializable {
                 return this;
             }
             
-            public Builder decorationsUsed(List<Decoration> decorationsUsed){
-                this.decorationsUsed = decorationsUsed;
-                return this;
-            }
-            
             public Builder unitPrice(double unitPrice){
                 this.unitPrice = unitPrice;
                 return this;
@@ -85,7 +78,6 @@ public class Product implements Serializable {
 
             public Builder clone(Product prod){
                 this.id = prod.getId();
-                this.decorationsUsed = prod.getDecorationsUsed();
                 this.paperUsed = prod.getPaperUsed();
                 this.unitPrice = prod.getUnitPrice();
                 this.description = prod.description;               
