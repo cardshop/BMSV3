@@ -29,7 +29,7 @@ public class Product implements Serializable {
     private Long id;
     
     @OneToMany
-    @JoinColumn(name = "Paper")
+    //@JoinColumn(name = "Paper")
     private List<Paper> paperUsed;
    
     private double unitPrice;
@@ -37,7 +37,7 @@ public class Product implements Serializable {
     private String description;
     
     @OneToMany
-    @JoinColumn(name = "Art_Decor")
+    //@JoinColumn(name = "Art_Decor")
     private List<Decoration> decorationsUsed;
 
     private Product(){

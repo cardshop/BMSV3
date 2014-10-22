@@ -47,7 +47,7 @@ public class PaperRepositoryTest {
     public void createPaper(){
         repo = ctx.getBean(PaperRepository.class);
         
-        Paper paper = new Paper.Builder("glossy")
+        Paper paper = new Paper.Builder("Paper")
                 .price(10)
                 .colour("White")
                 .build();
@@ -72,7 +72,7 @@ public class PaperRepositoryTest {
         repo = ctx.getBean(PaperRepository.class);
         Paper paper = repo.findOne(id);
     
-        Paper updatedLace = new Paper.Builder("glossy")
+        Paper updatedLace = new Paper.Builder("Paper")
                 .clone(paper)
                 .price(11)
                 .build();

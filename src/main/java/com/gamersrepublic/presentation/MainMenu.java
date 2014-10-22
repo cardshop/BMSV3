@@ -17,7 +17,9 @@ import com.gamersrepublic.services.impl.InventoryServiceImpl;
 import com.gamersrepublic.services.impl.PaperCRUDServiceImpl;
 import com.gamersrepublic.services.impl.ReportServiceImpl;
 import datechooser.beans.DateChooserDialog;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1682,35 +1684,68 @@ public class MainMenu extends javax.swing.JFrame {
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
             dateChooserCombo1.setText(dateformat.format(item.getDateInstalled()));
         }
-        else{}
-        
-        txtSize.setText(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 2)));
-        txtPrice.setText(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 3)));
-        txtQuantity.setText(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 4)));
+        else{
+            txtName.setEditable(true);
+            txtName.setText("Error");
+            txtQuantity.setText("Error");
+            txtQuantity.setEditable(false);
+            txtPrice.setText("Error");
+            txtSize.setText("Error");
+            txtColour.setText("Error");
+            txtGrammage.setText("Error");
+            txtGrammage.setText("Error");
+            dateChooserCombo1.setText("Error");
+            dateChooserCombo1.setText("Error");
+        }
     }//GEN-LAST:event_tblInventoryMouseClicked
 
-    String Type;
+ 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        ;
-        if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Paper")
+        inventoryService = new InventoryServiceImpl();
+        Map attributes = new HashMap();
+        if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Paper")
         {
-            Type = "Paper";
+            attributes.put("type", "Paper");
+            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
+            attributes.put("grammage", txtGrammage.getText());
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+            
+            inventoryService.updateInventory(attributes);
+            populateInventoryList();
         }
-        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Decorations")
+        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Decorations")
         {
-            Type = "Decorations";
+            attributes.put("type", "Decorations");
+            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+            
+            inventoryService.updateInventory(attributes);
+            populateInventoryList();
         }
-        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 0)) == "Ink")
+        else if(String.valueOf(model.getValueAt(tblInventory.getSelectedRow() , 1)) == "Ink")
         {
-            Type = "Ink";
-        }
-        //Testing purposes
-        //JOptionPane.showMessageDialog(null, Type);
-        model.setValueAt(Type, tblInventory.getSelectedRow(),0);
-        model.setValueAt(txtSize.getText(), tblInventory.getSelectedRow(),2);
-        model.setValueAt(txtPrice.getText(), tblInventory.getSelectedRow(),3);
-        model.setValueAt(txtQuantity.getText(), tblInventory.getSelectedRow(),4);
+            DateFormat formatter = new SimpleDateFormat("yyy/MM/dd");
+            attributes.put("type", "Ink");
+            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+            try{
+                attributes.put("dateInstalled", (Date)formatter.parse(dateChooserCombo1.getText()));
+            }catch(Exception e){}
+            
+            inventoryService.updateInventory(attributes);
+            populateInventoryList();
+        }else{}
+        
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

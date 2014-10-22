@@ -14,7 +14,10 @@ import com.gamersrepublic.repository.DecorationRepository;
 import com.gamersrepublic.repository.InkRepository;
 import com.gamersrepublic.repository.PaperRepository;
 import com.gamersrepublic.services.InventoryService;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.context.ApplicationContext;
@@ -44,7 +47,7 @@ public class InventoryServiceImpl implements InventoryService{
             
             paperRepo.save(paper);
             
-            return paperRepo.getOne(paper.getId());
+            return paperRepo.findOne(paper.getId());
         }
         else if(model.get("type").toString().equals("Decorations")){
             decorationRepo = ctx.getBean(DecorationRepository.class);
@@ -57,7 +60,7 @@ public class InventoryServiceImpl implements InventoryService{
             
             decorationRepo.save(decoration);
             
-            return decorationRepo.getOne(decoration.getId());
+            return decorationRepo.findOne(decoration.getId());
         }
         else if(model.get("type").toString().equals("Ink")){
             inkRepo = ctx.getBean(InkRepository.class);
@@ -65,11 +68,12 @@ public class InventoryServiceImpl implements InventoryService{
                     .inventory(Integer.parseInt(model.get("inventory").toString()))
                     .price(Double.parseDouble(model.get("price").toString()))
                     .colour(model.get("colour").toString())
+                    .dateInstalled((Date)model.get("dateInstalled"))
                     .build();
             
             inkRepo.save(inkCardridge);
             
-            return inkRepo.getOne(inkCardridge.getId());
+            return inkRepo.findOne(inkCardridge.getId());
         }
         else{
             return null;
@@ -94,7 +98,7 @@ public class InventoryServiceImpl implements InventoryService{
             
             paperRepo.save(paper);
             
-            return paperRepo.getOne(paper.getId());
+            return paperRepo.findOne(paper.getId());
         }
         else if(model.get("type").toString().equals("Decorations")){
             decorationRepo = ctx.getBean(DecorationRepository.class);
@@ -111,7 +115,7 @@ public class InventoryServiceImpl implements InventoryService{
             
             decorationRepo.save(decoration);
             
-            return decorationRepo.getOne(decoration.getId());
+            return decorationRepo.findOne(decoration.getId());
         }
         else if(model.get("type").toString().equals("Ink")){
             inkRepo = ctx.getBean(InkRepository.class);
@@ -123,11 +127,12 @@ public class InventoryServiceImpl implements InventoryService{
                     .inventory(Integer.parseInt(model.get("inventory").toString()))
                     .price(Double.parseDouble(model.get("price").toString()))
                     .colour(model.get("colour").toString())
+                    .dateInstalled((Date)model.get("dateInstalled"))
                     .build();
             
             inkRepo.save(inkCardridge);
             
-            return inkRepo.getOne(inkCardridge.getId());
+            return inkRepo.findOne(inkCardridge.getId());
         }
         else{
             return null;
