@@ -75,6 +75,7 @@ public class MainMenu extends javax.swing.JFrame {
         populateContactList();
         populateSalesList();
         populateInventoryList();
+        setInventoryFields();
     }
 
     /**
@@ -1070,6 +1071,11 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel6.setText("Type:");
 
         cmboxTypeInput.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Paper", "Decorations", "Ink" }));
+        cmboxTypeInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmboxTypeInputActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Name:");
 
@@ -1593,28 +1599,44 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbxTypeActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-/*        lblAddEdit.setText("Item Added");
-        String itemType = comboType.getSelectedItem().toString();
-        if(itemType.equalsIgnoreCase("Paper")){
-            String type = txtName.getText();
-            int qtyPurchased = Integer.parseInt(txtQuantity.getText());
-            double price = Double.parseDouble(txtPrice.getText());
-            String size = txtSize.getText();
-            String colour = txtColour.getText();
-            String grammage = txtGrammage.getText();
+        inventoryService = new InventoryServiceImpl();
+        Map attributes = new HashMap();
+        if(cmboxTypeInput.getSelectedIndex() == 0){
+            attributes.put("type", "Paper");
+            attributes.put("grammage", txtGrammage.getText());
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
             
-            Paper paper = new Paper.Builder(type)
-                    .inventory(qtyPurchased)
-                    .colour(colour)
-                    .grammage(grammage)
-                    .price(price)
-                    .size(size)
-                    .build();
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
+        }
+        else if(cmboxTypeInput.getSelectedIndex() == 1){
+            attributes.put("type", "Decorations");
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
             
-            System.out.println(paper.toString());
-            this.paperCRUDService = new PaperCRUDServiceImpl();
-            paperCRUDService.persist(paper);
-        }*/
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
+        }
+        else if(cmboxTypeInput.getSelectedIndex() == 2)
+        {
+            DateFormat formatter = new SimpleDateFormat("yyy/MM/dd");
+            attributes.put("type", "Ink");
+            attributes.put("inventory", String.valueOf(txtQuantity.getText()));
+            attributes.put("price", String.valueOf(txtPrice.getText()));
+            attributes.put("size", txtSize.getText());
+            attributes.put("colour", txtColour.getText());
+            try{
+                attributes.put("dateInstalled", (Date)formatter.parse(dateChooserCombo1.getText()));
+            }catch(Exception e){}
+            
+            inventoryService.addInventory(attributes);
+            populateInventoryList();
+        }else{}
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInventoryMouseClicked
@@ -1929,6 +1951,37 @@ public class MainMenu extends javax.swing.JFrame {
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tblSalesMouseClicked
+
+    private void cmboxTypeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxTypeInputActionPerformed
+        setInventoryFields();
+    }//GEN-LAST:event_cmboxTypeInputActionPerformed
+    
+    public void setInventoryFields(){
+        if(cmboxTypeInput.getSelectedIndex() == 0){
+            txtName.setEditable(false);
+            txtSize.setEditable(true);
+            txtSize.setText("");
+            txtGrammage.setEditable(true);
+            txtGrammage.setText("");
+            dateChooserCombo1.setEnabled(false);
+        }
+        else if(cmboxTypeInput.getSelectedIndex() == 1){
+            txtName.setEditable(false);
+            txtSize.setEditable(true);
+            txtSize.setText("");
+            txtGrammage.setEditable(false);
+            txtGrammage.setText("N/A");
+            dateChooserCombo1.setEnabled(false);
+        }
+        else if(cmboxTypeInput.getSelectedIndex() == 2){
+            txtName.setEditable(true);
+            txtSize.setEditable(false);
+            txtSize.setText("Standard");
+            txtGrammage.setEditable(false);
+            txtGrammage.setText("N/A");
+            dateChooserCombo1.setEnabled(true);
+        }else{}
+    }
     
     public void setUser(Employee user){
         this.user = user;
