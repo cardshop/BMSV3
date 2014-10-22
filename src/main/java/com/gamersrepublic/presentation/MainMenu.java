@@ -1536,7 +1536,7 @@ public class MainMenu extends javax.swing.JFrame {
         for (Object object : inventoryList){
             if (object.getClass() == Paper.class && cmbxType.getSelectedIndex()==1){
                 Paper paper = (Paper)object;
-                model1.addRow(new Object[]{paper.getId(), paper.getType(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
+                model1.addRow(new Object[]{paper.getId(), paper.toString(), paper.getColour(), paper.getSize(), paper.getPrice(), paper.getInventory() });
             }
             
             if (object.getClass() == Decoration.class && cmbxType.getSelectedIndex()==2){
@@ -1776,13 +1776,23 @@ public class MainMenu extends javax.swing.JFrame {
         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);       
 
          
-        if(response==0)
-        {
-         model.removeRow(tblInventory.getSelectedRow());
-         JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
+        if(response==0){
+            Map attributes = new HashMap();
+            inventoryService = new InventoryServiceImpl();
+            attributes.put("id", model.getValueAt(tblInventory.getSelectedRow() , 0));
+            attributes.put("type", model.getValueAt(tblInventory.getSelectedRow() , 1));
+            
+            if(inventoryService.deleteInventory(attributes)){
+                model.removeRow(tblInventory.getSelectedRow());
+                populateInventoryList();
+                JOptionPane.showMessageDialog(null,"Record Succesfully Deleted");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"An error occurred and the record was NOT deleted.");
+            }
+            
         }
-        else 
-        {
+        else{
             return;
         }
         

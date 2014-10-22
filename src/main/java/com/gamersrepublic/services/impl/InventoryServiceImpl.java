@@ -174,9 +174,9 @@ public class InventoryServiceImpl implements InventoryService{
             Paper deleted = paperRepo.findOne((Long)model.get("id"));
 
             if (deleted != null)
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
         else if(model.get("type").toString().equals("Decorations")){
             decorationRepo = ctx.getBean(DecorationRepository.class);
@@ -186,9 +186,9 @@ public class InventoryServiceImpl implements InventoryService{
             Decoration deleted = decorationRepo.findOne((Long)model.get("id"));
 
             if (deleted != null)
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
         else if(model.get("type").toString().equals("Ink")){
             inkRepo = ctx.getBean(InkRepository.class);
@@ -198,9 +198,9 @@ public class InventoryServiceImpl implements InventoryService{
             InkCardridge deleted = inkRepo.findOne((Long)model.get("id"));
 
             if (deleted != null)
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
         else{
             return false;
@@ -216,7 +216,7 @@ public class InventoryServiceImpl implements InventoryService{
         if(model.get("type").toString().equals("Paper")){
             return paperRepo.findOne((Long)model.get("id"));
         }
-        else if(model.get("type").toString().equals("Decoration")){
+        else if(model.get("type").toString().equals("Decorations")){
             return decorationRepo.findOne((Long)model.get("id"));
         }
         else if(model.get("type").toString().equals("Ink")){

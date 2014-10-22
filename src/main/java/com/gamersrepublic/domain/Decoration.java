@@ -171,6 +171,6 @@ public class Decoration implements Serializable {
     
     @Override
     public String toString(){
-        return "Decoration";
+        return "Decorations";
     }
 }

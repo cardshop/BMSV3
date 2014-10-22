@@ -175,4 +175,9 @@ public class Paper implements Serializable{
         }
         return true;
     }
+    
+    @Override
+    public String toString(){
+        return "Paper";
+    }
 }
